@@ -1,0 +1,33 @@
+{
+  "name": "@graphql-typed-document-node/apollo-client-3",
+  "version": "0.0.1",
+  "repository": "git@github.com:dotansimha/graphql-typed-document-node.git",
+  "author": "Dotan Simha <dotansimha@gmail.com>",
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
+  "typescript": {
+    "definition": "dist/index.d.ts"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "tsc && bob build --single",
+    "prepack": "bob prepack"
+  },
+  "dependencies": {
+    "@graphql-typed-document-node/core": "0.0.1"
+  },
+  "devDependencies": {
+    "@apollo/client": "3.0.0",
+    "graphql": "15.3.0"
+  },
+  "peerDependencies": {
+    "@apollo/client": "^3",
+    "graphql": "^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0"
+  },
+  "buildOptions": {
+    "input": "./src/index.ts"
+  }
+}
