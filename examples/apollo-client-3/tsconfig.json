@@ -3,7 +3,7 @@
     "incremental": true,
     "baseUrl": ".",
     "outDir": "dist",
-    "rootDir": "packages",
+    "rootDir": "./",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
@@ -21,14 +21,9 @@
     "noImplicitReturns": true,
     "noUnusedLocals": false,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "paths": {
-      "@graphql-typed-document-node/core": ["packages/core/src/index.ts"],
-      "@graphql-typed-document-node/testing": ["packages/core/test-helpers/test-helpers.ts"],
-      "@graphql-typed-document-node/codegen-plugin": ["packages/codegen-plugin/src/index.ts"]
-    },
+    "types": ["node", "@graphql-typed-document-node/apollo-client-3"]
   },
-  "include": ["packages"],
+  "include": ["./"],
   "exclude": [
     "**/dist",
     "**/temp"

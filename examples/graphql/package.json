@@ -1,0 +1,20 @@
+{
+  "name": "graphql-typed-documentnode-example",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "generate": "graphql-codegen",
+    "precompile": "yarn generate",
+    "compile": "tsc"
+  },
+  "dependencies": {
+    "@types/node": "14.0.23",
+    "graphql": "15.3.0",
+    "typescript": "3.9.7",
+    "@graphql-typed-document-node/graphql": "0.0.1",
+    "@graphql-typed-document-node/codegen-plugin": "0.0.1",
+    "@graphql-codegen/cli": "1.17.0",
+    "@graphql-codegen/typescript": "1.17.0",
+    "@graphql-codegen/typescript-operations": "1.17.0"
+  }
+}

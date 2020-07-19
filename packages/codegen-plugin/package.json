@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "change-case": "4.1.1",
-    "@graphql-codegen/core": "1.17.0"
+    "@graphql-codegen/core": "^1.13.0"
   },
   "buildOptions": {
     "input": "./src/index.ts"

@@ -1,0 +1,16 @@
+enum CacheControlScope {
+  PUBLIC
+  PRIVATE
+}
+
+type ExchangeRate {
+  currency: String
+  rate: String
+  name: String
+}
+
+type Query {
+  rates(currency: String!): [ExchangeRate]
+}
+
+scalar Upload

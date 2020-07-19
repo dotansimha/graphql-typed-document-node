@@ -1,0 +1,8 @@
+schema: ../schema.graphql
+documents: ../query.graphql
+generates:
+  ./typed-document-nodes.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - '@graphql-typed-document-node/codegen-plugin'
