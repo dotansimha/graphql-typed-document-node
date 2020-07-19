@@ -7,10 +7,10 @@ type Options = {
   compilerOptions?: ts.CompilerOptions;
 }
 
-const TRIPLE_SLASH_REFERENCE: Options = { prepend: '/// <reference types="@graphql-typed-document-node/react-apollo/dist/hooks" />' };
+const TRIPLE_SLASH_REFERENCE: Options = { prepend: '/// <reference types="@graphql-typed-document-node/react-apollo" />' };
 const TYPES_FIELDS_TSCONFIG: Options = {
   compilerOptions: {
-    types: ['@graphql-typed-document-node/react-apollo/dist/hooks', 'node']
+    types: ['@graphql-typed-document-node/react-apollo', 'node']
   }
 };
 
