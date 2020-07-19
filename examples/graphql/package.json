@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
+    "postinstall": "yarn generate",
     "generate": "graphql-codegen",
     "precompile": "yarn generate",
     "compile": "tsc"
