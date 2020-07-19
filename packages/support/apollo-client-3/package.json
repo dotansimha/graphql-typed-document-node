@@ -29,5 +29,8 @@
   },
   "buildOptions": {
     "input": "./src/index.ts"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
