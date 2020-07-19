@@ -16,7 +16,7 @@ export async function executeCodegen(): Promise<Types.FileOutput[]> {
             plugins: [
               'typescript',
               'typescript-operations',
-              '@graphql-typed-document-node/codegen-plugin/dist',
+              'typed-document-node',
             ]
           }
         }

@@ -683,7 +683,7 @@
     wrap-ansi "7.0.0"
     yargs "15.4.1"
 
-"@graphql-codegen/core@1.17.0", "@graphql-codegen/core@^1.13.0":
+"@graphql-codegen/core@1.17.0":
   version "1.17.0"
   resolved "https://registry.npmjs.org/@graphql-codegen/core/-/core-1.17.0.tgz#aec494ab7dfbb105dce473c5ca41beb80865152b"
   integrity sha512-FpsFvuQGrh0ZLQrLyy3nxiO7iUYBLj/oSJ1L60ArofTr7eEwcvFRAgWsoEpu6aDCmoBQJLBCDd1Npqd02zlAMw==
@@ -708,6 +708,15 @@
     pascal-case "3.1.1"
     tslib "~2.0.0"
     upper-case "2.0.1"
+
+"@graphql-codegen/typed-document-node@1.17.0":
+  version "1.17.0"
+  resolved "https://registry.npmjs.org/@graphql-codegen/typed-document-node/-/typed-document-node-1.17.0.tgz#525220284231899237d6fff173d7f2ce168cb12c"
+  integrity sha512-aFeeGGMBmNClmcG41AYJOc+LIJa38i2QNOVoajrNlYbcSWIIY12zjBTDkPI71wG4QDBZyxfhjqAdUpCQrivdRA==
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "1.17.0"
+    change-case "4.1.1"
+    tslib "~2.0.0"
 
 "@graphql-codegen/typescript-operations@1.17.0":
   version "1.17.0"
@@ -1235,13 +1244,6 @@
   integrity sha512-i+zS7t6/s9cdQvbqKDARrcbrPvtJGlbYsMkazo03nTAK3RX9FNrLllXys22uiTGJapPOTZTQ35nHh4ISph4SLQ==
   dependencies:
     "@babel/types" "^7.3.0"
-
-"@types/change-case@2.3.1":
-  version "2.3.1"
-  resolved "https://registry.npmjs.org/@types/change-case/-/change-case-2.3.1.tgz#dbaf4efb63ad8586ab8819179a790904ccb6a837"
-  integrity sha1-269O+2OthYariBkXmnkJBMy2qDc=
-  dependencies:
-    change-case "*"
 
 "@types/color-name@^1.1.1":
   version "1.1.1"
@@ -2097,7 +2099,7 @@ chalk@^3.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-change-case@*, change-case@4.1.1:
+change-case@4.1.1:
   version "4.1.1"
   resolved "https://registry.npmjs.org/change-case/-/change-case-4.1.1.tgz#d5005709275952e7963fed7b91e4f9fdb6180afa"
   integrity sha512-qRlUWn/hXnX1R1LBDF/RelJLiqNjKjUqlmuBVSEIyye8kq49CXqkZWKmi8XeUAdDXWFOcGLUMZ+aHn3Q5lzUXw==

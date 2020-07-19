@@ -41,7 +41,7 @@ To use this library, following these instructions:
 1. Install GraphQL Codegen and the relevant plugins by doing:
 
 ```
-yarn add -D @graphql-codegen/cli @graphql-codegen/typescript @graphql-codegen/typescript-operations @graphql-typed-document-node/codegen-plugin
+yarn add -D @graphql-codegen/cli @graphql-codegen/typescript @graphql-codegen/typescript-operations @graphql-codegen/typed-document-node
 ```
 
 And if you don't already have a dependency for `graphql`, add it to your project:
@@ -58,7 +58,7 @@ generates:
     plugins:
       - typescript
       - typescript-operations
-      - '@graphql-typed-document-node/codegen-plugin'
+      - typed-document-node
 ```
 
 3. Try to run codegen by using: `yarn graphql-codegen`, it should create the `./src/graphql-operations.ts` file for you, with the generated `TypedDocumentNode` objects.

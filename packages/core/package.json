@@ -17,7 +17,7 @@
     "prepack": "bob prepack"
   },
   "devDependencies": {
-    "@graphql-typed-document-node/codegen-plugin": "0.0.1",
+    "@graphql-codegen/typed-document-node": "1.17.0",
     "@graphql-codegen/cli": "1.17.0",
     "@graphql-codegen/typescript": "1.17.0",
     "@graphql-codegen/typescript-operations": "1.17.0",
