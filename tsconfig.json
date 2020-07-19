@@ -26,7 +26,7 @@
       "@graphql-typed-document-node/core": ["packages/core/src/index.ts"],
       "@graphql-typed-document-node/testing": ["packages/core/test-helpers/test-helpers.ts"],
       "@graphql-typed-document-node/codegen-plugin": ["packages/codegen-plugin/src/index.ts"]
-    },
+    }
   },
   "include": ["packages"],
   "exclude": [
