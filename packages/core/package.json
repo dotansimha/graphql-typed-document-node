@@ -17,10 +17,10 @@
     "prepack": "bob prepack"
   },
   "devDependencies": {
-    "@graphql-codegen/typed-document-node": "1.17.0",
-    "@graphql-codegen/cli": "1.17.0",
-    "@graphql-codegen/typescript": "1.17.0",
-    "@graphql-codegen/typescript-operations": "1.17.0",
+    "@graphql-codegen/typed-document-node": "1.17.3",
+    "@graphql-codegen/cli": "1.17.3",
+    "@graphql-codegen/typescript": "1.17.3",
+    "@graphql-codegen/typescript-operations": "1.17.3",
     "graphql": "15.3.0"
   },
   "peerDependencies": {
