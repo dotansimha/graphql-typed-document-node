@@ -1,10 +1,10 @@
 /* eslint-disable */
-import { ratesQuery } from './typed-document-nodes';
+import { RatesDocument } from './typed-document-nodes';
 import { useQuery } from '@apollo/client';
 
 // We now have types support and auto complete for the
-// result type, just by passing `ratesQuery` as `query` to apollo client.
-const result = useQuery(ratesQuery, {
+// result type, just by passing `RatesDocument` as `query` to apollo client.
+const result = useQuery(RatesDocument, {
   variables: {
     currency: "USD",
   },
