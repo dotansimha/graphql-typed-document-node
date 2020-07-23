@@ -8,13 +8,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  Upload: any;
 };
-
-export enum CacheControlScope {
-  Public = 'PUBLIC',
-  Private = 'PRIVATE'
-}
 
 export type ExchangeRate = {
   __typename?: 'ExchangeRate';
@@ -32,7 +26,6 @@ export type Query = {
 export type QueryRatesArgs = {
   currency: Scalars['String'];
 };
-
 
 export type RatesQueryVariables = Exact<{
   currency: Scalars['String'];
