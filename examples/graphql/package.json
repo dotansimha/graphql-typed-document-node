@@ -1,7 +1,7 @@
 {
   "name": "graphql-typed-documentnode-example",
   "private": true,
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
     "postinstall": "yarn generate",
     "generate": "graphql-codegen",
@@ -12,7 +12,7 @@
     "@types/node": "14.0.23",
     "graphql": "15.3.0",
     "typescript": "3.9.7",
-    "@graphql-typed-document-node/graphql": "0.0.1",
+    "@graphql-typed-document-node/graphql": "1.0.0",
     "@graphql-codegen/typed-document-node": "1.17.4",
     "@graphql-codegen/cli": "1.17.4",
     "@graphql-codegen/typescript": "1.17.4",
