@@ -20,6 +20,7 @@
     "@graphql-typed-document-node/core": "0.0.1"
   },
   "devDependencies": {
+    "bob-the-bundler": "1.0.2",
     "@apollo/client": "3.0.2",
     "graphql": "15.3.0"
   },
