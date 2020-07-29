@@ -31,12 +31,15 @@ export async function applyPatches(rootDirectory: string, reverse = false): Prom
         const result = applyPatchFile(baseDir, patch.fileName, reverse);
 
         if (result) {
+          // eslint-disable-next-line
           console.info(`[TypedDocumentNode] Patch for ${patch.packageName}@${dependency} has been ${reverse ? 'reversed' : 'applied'}!`);
         } else {
+          // eslint-disable-next-line
           console.warn(`[TypedDocumentNode] Something went wrong, unable to patch ${patch.packageName} (Patch: ${patch.versionRange}, Installed: ${dependency})`);
         }
       } else {
-        console.warn(`[TypedDocumentNode] Patch for ${patch.packageName} exists, but you have a version mismatch! (Supported: ${patch.versionRange}, you have: ${dependency})`);
+          // eslint-disable-next-line
+          console.warn(`[TypedDocumentNode] Patch for ${patch.packageName} exists, but you have a version mismatch! (Supported: ${patch.versionRange}, you have: ${dependency})`);
       }
     }
   }
