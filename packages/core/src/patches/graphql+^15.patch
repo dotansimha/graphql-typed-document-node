@@ -1,0 +1,57 @@
+diff --git a/node_modules/graphql/execution/execute.d.ts b/node_modules/graphql/execution/execute.d.ts
+index 3adfdc4..3d0cb9e 100644
+--- a/node_modules/graphql/execution/execute.d.ts
++++ b/node_modules/graphql/execution/execute.d.ts
+@@ -1,3 +1,5 @@
++import { TypedDocumentNode } from "@graphql-typed-document-node/core";
++
+ import { Maybe } from '../jsutils/Maybe';
+ 
+ import { PromiseOrValue } from '../jsutils/PromiseOrValue';
+@@ -66,12 +68,12 @@ export interface FormattedExecutionResult<
+   extensions?: TExtensions;
+ }
+ 
+-export interface ExecutionArgs {
++export interface ExecutionArgs<TData = any, TVariables = any> {
+   schema: GraphQLSchema;
+-  document: DocumentNode;
++  document: DocumentNode | TypedDocumentNode<TData, TVariables>;
+   rootValue?: any;
+   contextValue?: any;
+-  variableValues?: Maybe<{ [key: string]: any }>;
++  variableValues?: Maybe<TVariables>;
+   operationName?: Maybe<string>;
+   fieldResolver?: Maybe<GraphQLFieldResolver<any, any>>;
+   typeResolver?: Maybe<GraphQLTypeResolver<any, any>>;
+@@ -89,24 +91,24 @@ export interface ExecutionArgs {
+  *
+  * Accepts either an object with named arguments, or individual arguments.
+  */
+-export function execute(args: ExecutionArgs): PromiseOrValue<ExecutionResult>;
+-export function execute(
++export function execute<TData = any, TVariables = any>(args: ExecutionArgs<TData, TVariables>): PromiseOrValue<ExecutionResult<TData>>;
++export function execute<TData = any, TVariables = any>(
+   schema: GraphQLSchema,
+-  document: DocumentNode,
++  document: DocumentNode | TypedDocumentNode<TData, TVariables>,
+   rootValue?: any,
+   contextValue?: any,
+-  variableValues?: Maybe<{ [key: string]: any }>,
++  variableValues?: Maybe<TVariables>,
+   operationName?: Maybe<string>,
+   fieldResolver?: Maybe<GraphQLFieldResolver<any, any>>,
+   typeResolver?: Maybe<GraphQLTypeResolver<any, any>>,
+-): PromiseOrValue<ExecutionResult>;
++): PromiseOrValue<ExecutionResult<TData>>;
+ 
+ /**
+  * Also implements the "Evaluating requests" section of the GraphQL specification.
+  * However, it guarantees to complete synchronously (or throw an error) assuming
+  * that all field resolvers are also synchronous.
+  */
+-export function executeSync(args: ExecutionArgs): ExecutionResult;
++export function executeSync<TData = any, TVariables = any>(args: ExecutionArgs<TData, TVariables>): ExecutionResult<TData>;
+ 
+ /**
+  * Essential assertions before executing to provide developer feedback for

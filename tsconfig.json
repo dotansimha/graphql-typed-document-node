@@ -23,8 +23,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "paths": {
-      "@graphql-typed-document-node/core": ["packages/core/src/index.ts"],
-      "@graphql-typed-document-node/testing": ["packages/core/test-helpers/test-helpers.ts"]
+      "@graphql-typed-document-node/core": ["packages/core/src/index.ts"]
     }
   },
   "include": ["packages"],

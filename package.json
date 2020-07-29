@@ -2,17 +2,22 @@
   "name": "graphql-typed-document-node",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "./examples/*",
-    "./packages/*",
-    "./packages/support/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "./examples/*",
+      "./packages/*",
+      "./packages/support/*"
+    ],
+    "nohoist": [
+      "apollo-client-example/@apollo/client",
+      "graphql-example/graphql"
+    ]
+  },
   "scripts": {
     "release": "node scripts/release.js",
     "lint": "eslint --ext .ts .",
     "prebuild": "rimraf packages/{*,plugins/*/*,presets/*,utils/*}/dist",
     "build": "tsc --project tsconfig.json && bob build",
-    "pretest": "yarn build",
     "test": "jest"
   },
   "devDependencies": {
@@ -35,7 +40,7 @@
     "lint-staged": "10.2.11",
     "rimraf": "3.0.2",
     "@types/node": "14.0.24",
-    "bob-the-bundler": "1.0.2",
+    "bob-the-bundler": "1.1.0-alpha.0",
     "jest": "26.1.0",
     "ts-jest": "26.1.3",
     "ts-node": "8.10.2",
