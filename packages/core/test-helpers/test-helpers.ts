@@ -9,8 +9,8 @@ export async function executeCodegen(): Promise<Types.FileOutput[]> {
   if (!cachedCodegenResult) {
     try {
       cachedCodegenResult = await generate({
-        schema: join(__dirname, '../../../examples/schema.graphql'),
-        documents: join(__dirname, '../../../examples/query.graphql'),
+        schema: join(__dirname, '../../../examples/graphql/schema.graphql'),
+        documents: join(__dirname, '../../../examples/graphql/query.graphql'),
         generates: {
           'types.ts': {
             plugins: [

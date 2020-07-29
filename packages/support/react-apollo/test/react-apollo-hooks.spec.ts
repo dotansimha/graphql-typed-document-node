@@ -20,10 +20,10 @@ describe('React-Apollo', () => {
       const { program, assertTsErrors, getIdentifierInferredType } = await createProgram(`
         ${prepend}
 
-        import { ratesQuery } from './types';
+        import { RatesDocument } from './types';
         import { ${methodName} } from '@apollo/react-hooks';
   
-        const result = ${methodName}(ratesQuery, { variables: { currency: "USD" } });
+        const result = ${methodName}(RatesDocument, { variables: { currency: "USD" } });
 
         ${append}
       `, compilerOptions);

@@ -23,11 +23,11 @@ describe('Apollo-Client v2', () => {
       const { program, assertTsErrors, getCompilationErrors, getIdentifierInferredType } = await createProgram(`
         ${prepend}
 
-        import { ratesQuery } from './types';
+        import { RatesDocument } from './types';
         import { ApolloClient } from 'apollo-client';
 
         const client = new ApolloClient<any>({} as any);
-        const result = client.${methodName}({ ${fieldName}: ratesQuery, variables: { currency: "USD" }${addIdField ? ", id: '1'" : ''}${addDataField ? ", data: {}" : ''} });
+        const result = client.${methodName}({ ${fieldName}: RatesDocument, variables: { currency: "USD" }${addIdField ? ", id: '1'" : ''}${addDataField ? ", data: {}" : ''} });
 
         ${append}
       `, compilerOptions);

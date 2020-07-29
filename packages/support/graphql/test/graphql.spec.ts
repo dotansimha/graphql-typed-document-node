@@ -20,7 +20,7 @@ describe('GraphQL', () => {
       const { program, assertTsErrors, getIdentifierInferredType } = await createProgram(`
         ${prepend}
 
-        import { ratesQuery } from './types';
+        import { RatesDocument } from './types';
         import { ${methodName}, buildSchema } from 'graphql';
 
         async function test() {
@@ -36,13 +36,13 @@ describe('GraphQL', () => {
   };
 
   // Tests for usage of `execute` with multiple params
-  const MULTILE_PARAMS_CALL_ARGS = 'schema, ratesQuery, null, null, { currency: "ILS" }';
+  const MULTILE_PARAMS_CALL_ARGS = 'schema, RatesDocument, null, null, { currency: "ILS" }';
   test('execute', 'should return default type when no triple slash present', 'ExecutionResult<{ [key: string]: any; }, { [key: string]: any; }>', { callUsage: MULTILE_PARAMS_CALL_ARGS });
   test('execute', 'should work correctly with triple-slashes reference', 'ExecutionResult<RatesQuery, { [key: string]: any; }>', { ...TRIPLE_SLASH_REFERENCE, callUsage: MULTILE_PARAMS_CALL_ARGS });
   test('execute', 'should work correctly with "types" config of tsconfig.json', 'ExecutionResult<RatesQuery, { [key: string]: any; }>', { ...TYPES_FIELDS_TSCONFIG, callUsage: MULTILE_PARAMS_CALL_ARGS });
 
   // Tests for usage of `execute` with single param
-  const SINGLE_PARAM_CALL_ARGS = '{ schema, document: ratesQuery, variableValues: { currency: "ILS" }}';
+  const SINGLE_PARAM_CALL_ARGS = '{ schema, document: RatesDocument, variableValues: { currency: "ILS" }}';
   test('execute', 'should return default type when no triple slash present - single argument', 'ExecutionResult<{ [key: string]: any; }, { [key: string]: any; }>', { callUsage: SINGLE_PARAM_CALL_ARGS });
   test('execute', 'should work correctly with triple-slashes reference - single argument', 'ExecutionResult<RatesQuery, { [key: string]: any; }>', { ...TRIPLE_SLASH_REFERENCE, callUsage: SINGLE_PARAM_CALL_ARGS });
   test('execute', 'should work correctly with "types" config of tsconfig.json - single argument', 'ExecutionResult<RatesQuery, { [key: string]: any; }>', { ...TYPES_FIELDS_TSCONFIG, callUsage: SINGLE_PARAM_CALL_ARGS });
