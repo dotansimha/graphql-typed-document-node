@@ -1,0 +1,447 @@
+diff --git a/node_modules/@apollo/client/cache/core/cache.d.ts b/node_modules/@apollo/client/cache/core/cache.d.ts
+index c1744cc..3b852da 100644
+--- a/node_modules/@apollo/client/cache/core/cache.d.ts
++++ b/node_modules/@apollo/client/cache/core/cache.d.ts
+@@ -4,8 +4,7 @@ import { DataProxy } from './types/DataProxy';
+ import { Cache } from './types/Cache';
+ export declare type Transaction<T> = (c: ApolloCache<T>) => void;
+ export declare abstract class ApolloCache<TSerialized> implements DataProxy {
+-    abstract read<T, TVariables = any>(query: Cache.ReadOptions<TVariables>): T | null;
+-    abstract write<TResult = any, TVariables = any>(write: Cache.WriteOptions<TResult, TVariables>): Reference | undefined;
++    abstract read<T, TVariables = any>(query: Cache.ReadOptions<TVariables, T>): T | null;    abstract write<TResult = any, TVariables = any>(write: Cache.WriteOptions<TResult, TVariables>): Reference | undefined;
+     abstract diff<T>(query: Cache.DiffOptions): Cache.DiffResult<T>;
+     abstract watch(watch: Cache.WatchOptions): () => void;
+     abstract reset(): Promise<void>;
+@@ -20,9 +19,9 @@ export declare abstract class ApolloCache<TSerialized> implements DataProxy {
+     gc(): string[];
+     modify(options: Cache.ModifyOptions): boolean;
+     transformForLink(document: DocumentNode): DocumentNode;
+-    readQuery<QueryType, TVariables = any>(options: DataProxy.Query<TVariables>, optimistic?: boolean): QueryType | null;
++    readQuery<QueryType, TVariables = any>(options: DataProxy.Query<TVariables, QueryType>, optimistic?: boolean): QueryType | null;
+     private getFragmentDoc;
+-    readFragment<FragmentType, TVariables = any>(options: DataProxy.Fragment<TVariables>, optimistic?: boolean): FragmentType | null;
++    readFragment<FragmentType, TVariables = any>(options: DataProxy.Fragment<TVariables, FragmentType>, optimistic?: boolean): FragmentType | null;
+     writeQuery<TData = any, TVariables = any>(options: Cache.WriteQueryOptions<TData, TVariables>): Reference | undefined;
+     writeFragment<TData = any, TVariables = any>(options: Cache.WriteFragmentOptions<TData, TVariables>): Reference | undefined;
+ }
+diff --git a/node_modules/@apollo/client/cache/core/types/Cache.d.ts b/node_modules/@apollo/client/cache/core/types/Cache.d.ts
+index 6602ec1..2f2061a 100644
+--- a/node_modules/@apollo/client/cache/core/types/Cache.d.ts
++++ b/node_modules/@apollo/client/cache/core/types/Cache.d.ts
+@@ -2,12 +2,12 @@ import { DataProxy } from './DataProxy';
+ import { Modifier, Modifiers } from './common';
+ export declare namespace Cache {
+     type WatchCallback = (diff: Cache.DiffResult<any>) => void;
+-    interface ReadOptions<TVariables = any> extends DataProxy.Query<TVariables> {
++    interface ReadOptions<TVariables = any, TData = any> extends DataProxy.Query<TVariables, TData> {
+         rootId?: string;
+         previousResult?: any;
+         optimistic: boolean;
+     }
+-    interface WriteOptions<TResult = any, TVariables = any> extends DataProxy.Query<TVariables> {
++    interface WriteOptions<TResult = any, TVariables = any> extends DataProxy.Query<TVariables, TResult> {
+         dataId?: string;
+         result: TResult;
+         broadcast?: boolean;
+diff --git a/node_modules/@apollo/client/cache/core/types/DataProxy.d.ts b/node_modules/@apollo/client/cache/core/types/DataProxy.d.ts
+index 84c921c..33deb58 100644
+--- a/node_modules/@apollo/client/cache/core/types/DataProxy.d.ts
++++ b/node_modules/@apollo/client/cache/core/types/DataProxy.d.ts
+@@ -1,22 +1,24 @@
+ import { DocumentNode } from 'graphql';
+ import { MissingFieldError } from './common';
++import { TypedDocumentNode } from '@graphql-typed-document-node/core';
++
+ export declare namespace DataProxy {
+-    interface Query<TVariables> {
+-        query: DocumentNode;
++    interface Query<TVariables, TData> {
++        query: DocumentNode | TypedDocumentNode<TData, TVariables>;
+         variables?: TVariables;
+         id?: string;
+     }
+-    interface Fragment<TVariables> {
++    interface Fragment<TVariables, TData> {
+         id?: string;
+-        fragment: DocumentNode;
++        fragment: DocumentNode | TypedDocumentNode<TData, TVariables>;
+         fragmentName?: string;
+         variables?: TVariables;
+     }
+-    interface WriteQueryOptions<TData, TVariables> extends Query<TVariables> {
++    interface WriteQueryOptions<TData, TVariables> extends Query<TVariables, TData> {
+         data: TData;
+         broadcast?: boolean;
+     }
+-    interface WriteFragmentOptions<TData, TVariables> extends Fragment<TVariables> {
++    interface WriteFragmentOptions<TData, TVariables> extends Fragment<TVariables, TData> {
+         data: TData;
+         broadcast?: boolean;
+     }
+@@ -27,8 +29,8 @@ export declare namespace DataProxy {
+     };
+ }
+ export interface DataProxy {
+-    readQuery<QueryType, TVariables = any>(options: DataProxy.Query<TVariables>, optimistic?: boolean): QueryType | null;
+-    readFragment<FragmentType, TVariables = any>(options: DataProxy.Fragment<TVariables>, optimistic?: boolean): FragmentType | null;
++    readQuery<QueryType, TVariables = any>(options: DataProxy.Query<TVariables, QueryType>, optimistic?: boolean): QueryType | null;
++    readFragment<FragmentType, TVariables = any>(options: DataProxy.Fragment<TVariables, FragmentType>, optimistic?: boolean): FragmentType | null;
+     writeQuery<TData = any, TVariables = any>(options: DataProxy.WriteQueryOptions<TData, TVariables>): void;
+     writeFragment<TData = any, TVariables = any>(options: DataProxy.WriteFragmentOptions<TData, TVariables>): void;
+ }
+diff --git a/node_modules/@apollo/client/core/ApolloClient.d.ts b/node_modules/@apollo/client/core/ApolloClient.d.ts
+index 650bed2..5d7d633 100644
+--- a/node_modules/@apollo/client/core/ApolloClient.d.ts
++++ b/node_modules/@apollo/client/core/ApolloClient.d.ts
+@@ -46,12 +46,12 @@ export declare class ApolloClient<TCacheShape> implements DataProxy {
+     private localState;
+     constructor(options: ApolloClientOptions<TCacheShape>);
+     stop(): void;
+-    watchQuery<T = any, TVariables = OperationVariables>(options: WatchQueryOptions<TVariables>): ObservableQuery<T, TVariables>;
+-    query<T = any, TVariables = OperationVariables>(options: QueryOptions<TVariables>): Promise<ApolloQueryResult<T>>;
++    watchQuery<T = any, TVariables = OperationVariables>(options: WatchQueryOptions<TVariables, T>): ObservableQuery<T, TVariables>;
++    query<T = any, TVariables = OperationVariables>(options: QueryOptions<TVariables, T>): Promise<ApolloQueryResult<T>>;
+     mutate<T = any, TVariables = OperationVariables>(options: MutationOptions<T, TVariables>): Promise<FetchResult<T>>;
+-    subscribe<T = any, TVariables = OperationVariables>(options: SubscriptionOptions<TVariables>): Observable<FetchResult<T>>;
+-    readQuery<T = any, TVariables = OperationVariables>(options: DataProxy.Query<TVariables>, optimistic?: boolean): T | null;
+-    readFragment<T = any, TVariables = OperationVariables>(options: DataProxy.Fragment<TVariables>, optimistic?: boolean): T | null;
++    subscribe<T = any, TVariables = OperationVariables>(options: SubscriptionOptions<TVariables, T>): Observable<FetchResult<T>>;
++    readQuery<T = any, TVariables = OperationVariables>(options: DataProxy.Query<TVariables, T>, optimistic?: boolean): T | null;
++    readFragment<T = any, TVariables = OperationVariables>(options: DataProxy.Fragment<TVariables, T>, optimistic?: boolean): T | null;
+     writeQuery<TData = any, TVariables = OperationVariables>(options: DataProxy.WriteQueryOptions<TData, TVariables>): void;
+     writeFragment<TData = any, TVariables = OperationVariables>(options: DataProxy.WriteFragmentOptions<TData, TVariables>): void;
+     __actionHookForDevTools(cb: () => any): void;
+diff --git a/node_modules/@apollo/client/core/ObservableQuery.d.ts b/node_modules/@apollo/client/core/ObservableQuery.d.ts
+index 519d2b1..bc61936 100644
+--- a/node_modules/@apollo/client/core/ObservableQuery.d.ts
++++ b/node_modules/@apollo/client/core/ObservableQuery.d.ts
+@@ -16,7 +16,7 @@ export interface UpdateQueryOptions<TVariables> {
+     variables?: TVariables;
+ }
+ export declare class ObservableQuery<TData = any, TVariables = OperationVariables> extends Observable<ApolloQueryResult<TData>> {
+-    readonly options: WatchQueryOptions<TVariables>;
++    readonly options: WatchQueryOptions<TVariables, TData>;
+     readonly queryId: string;
+     readonly queryName?: string;
+     get variables(): TVariables | undefined;
+@@ -41,11 +41,11 @@ export declare class ObservableQuery<TData = any, TVariables = OperationVariable
+     resetLastResults(): void;
+     resetQueryStoreErrors(): void;
+     refetch(variables?: Partial<TVariables>): Promise<ApolloQueryResult<TData>>;
+-    fetchMore<K extends keyof TVariables>(fetchMoreOptions: FetchMoreQueryOptions<TVariables, K> & FetchMoreOptions<TData, TVariables>): Promise<ApolloQueryResult<TData>>;
++    fetchMore<K extends keyof TVariables>(fetchMoreOptions: FetchMoreQueryOptions<TVariables, K, TData> & FetchMoreOptions<TData, TVariables>): Promise<ApolloQueryResult<TData>>;
+     subscribeToMore<TSubscriptionData = TData, TSubscriptionVariables = TVariables>(options: SubscribeToMoreOptions<TData, TSubscriptionVariables, TSubscriptionData>): () => void;
+-    setOptions(newOptions: Partial<WatchQueryOptions<TVariables>>): Promise<ApolloQueryResult<TData>>;
++    setOptions(newOptions: Partial<WatchQueryOptions<TVariables, TData>>): Promise<ApolloQueryResult<TData>>;
+     setVariables(variables: TVariables): Promise<ApolloQueryResult<TData> | void>;
+-    updateQuery<TVars = TVariables>(mapFn: (previousQueryResult: TData, options: Pick<WatchQueryOptions<TVars>, "variables">) => TData): void;
++    updateQuery<TVars = TVariables>(mapFn: (previousQueryResult: TData, options: Pick<WatchQueryOptions<TVars, TData>, "variables">) => TData): void;
+     startPolling(pollInterval: number): void;
+     stopPolling(): void;
+     private updateLastResult;
+@@ -53,7 +53,7 @@ export declare class ObservableQuery<TData = any, TVariables = OperationVariable
+     private reobserver?;
+     private getReobserver;
+     private newReobserver;
+-    reobserve(newOptions?: Partial<WatchQueryOptions<TVariables>>, newNetworkStatus?: NetworkStatus): Promise<ApolloQueryResult<TData>>;
++    reobserve(newOptions?: Partial<WatchQueryOptions<TVariables, TData>>, newNetworkStatus?: NetworkStatus): Promise<ApolloQueryResult<TData>>;
+     private observer;
+     private tearDownQuery;
+ }
+diff --git a/node_modules/@apollo/client/core/QueryManager.d.ts b/node_modules/@apollo/client/core/QueryManager.d.ts
+index e4bf4de..45be85a 100644
+--- a/node_modules/@apollo/client/core/QueryManager.d.ts
++++ b/node_modules/@apollo/client/core/QueryManager.d.ts
+@@ -35,7 +35,7 @@ export declare class QueryManager<TStore> {
+     stop(): void;
+     private cancelPendingFetches;
+     mutate<T>({ mutation, variables, optimisticResponse, updateQueries: updateQueriesByName, refetchQueries, awaitRefetchQueries, update: updateWithProxyFn, errorPolicy, fetchPolicy, context, }: MutationOptions): Promise<FetchResult<T>>;
+-    fetchQuery<TData, TVars>(queryId: string, options: WatchQueryOptions<TVars>, networkStatus?: NetworkStatus): Promise<ApolloQueryResult<TData>>;
++    fetchQuery<TData, TVars>(queryId: string, options: WatchQueryOptions<TVars, TData>, networkStatus?: NetworkStatus): Promise<ApolloQueryResult<TData>>;
+     getQueryStore(): Record<string, Pick<QueryInfo, "variables" | "graphQLErrors" | "networkError" | "networkStatus">>;
+     resetErrors(queryId: string): void;
+     private transformCache;
+@@ -48,8 +48,8 @@ export declare class QueryManager<TStore> {
+         defaultVars: Readonly<Record<string, any>>;
+     }>;
+     private getVariables;
+-    watchQuery<T, TVariables = OperationVariables>(options: WatchQueryOptions<TVariables>): ObservableQuery<T, TVariables>;
+-    query<TData, TVars = OperationVariables>(options: QueryOptions<TVars>): Promise<ApolloQueryResult<TData>>;
++    watchQuery<T, TVariables = OperationVariables>(options: WatchQueryOptions<TVariables, T>): ObservableQuery<T, TVariables>;
++    query<TData, TVars = OperationVariables>(options: QueryOptions<TVars, TData>): Promise<ApolloQueryResult<TData>>;
+     private queryIdCounter;
+     generateQueryId(): string;
+     private requestIdCounter;
+@@ -71,7 +71,7 @@ export declare class QueryManager<TStore> {
+     private inFlightLinkObservables;
+     private getObservableFromLink;
+     private getResultsFromLink;
+-    fetchQueryObservable<TData, TVars>(queryId: string, options: WatchQueryOptions<TVars>, networkStatus?: NetworkStatus): Concast<ApolloQueryResult<TData>>;
++    fetchQueryObservable<TData, TVars>(queryId: string, options: WatchQueryOptions<TVars, TData>, networkStatus?: NetworkStatus): Concast<ApolloQueryResult<TData>>;
+     private fetchQueryByPolicy;
+     private getQuery;
+     private prepareContext;
+diff --git a/node_modules/@apollo/client/core/Reobserver.d.ts b/node_modules/@apollo/client/core/Reobserver.d.ts
+index 9580550..c869b43 100644
+--- a/node_modules/@apollo/client/core/Reobserver.d.ts
++++ b/node_modules/@apollo/client/core/Reobserver.d.ts
+@@ -9,8 +9,8 @@ export declare class Reobserver<TData, TVars> {
+     private shouldFetch;
+     constructor(observer: Observer<ApolloQueryResult<TData>>, options: WatchQueryOptions<TVars>, fetch: (options: WatchQueryOptions<TVars>, newNetworkStatus?: NetworkStatus) => Concast<ApolloQueryResult<TData>>, shouldFetch: false | (() => boolean));
+     private concast?;
+-    reobserve(newOptions?: Partial<WatchQueryOptions<TVars>>, newNetworkStatus?: NetworkStatus): Promise<ApolloQueryResult<TData>>;
+-    updateOptions(newOptions: Partial<WatchQueryOptions<TVars>>): this;
++    reobserve(newOptions?: Partial<WatchQueryOptions<TVars, TData>>, newNetworkStatus?: NetworkStatus): Promise<ApolloQueryResult<TData>>;
++    updateOptions(newOptions: Partial<WatchQueryOptions<TVars, TData>>): this;
+     stop(): void;
+     private pollingInfo?;
+     private updatePolling;
+diff --git a/node_modules/@apollo/client/core/watchQueryOptions.d.ts b/node_modules/@apollo/client/core/watchQueryOptions.d.ts
+index 0650f34..c365109 100644
+--- a/node_modules/@apollo/client/core/watchQueryOptions.d.ts
++++ b/node_modules/@apollo/client/core/watchQueryOptions.d.ts
+@@ -1,3 +1,4 @@
++import { TypedDocumentNode } from '@graphql-typed-document-node/core';
+ import { DocumentNode } from 'graphql';
+ import { ApolloCache } from '../cache';
+ import { FetchResult } from '../link/core';
+@@ -6,27 +7,27 @@ import { PureQueryOptions, OperationVariables } from './types';
+ export declare type FetchPolicy = 'cache-first' | 'network-only' | 'cache-only' | 'no-cache' | 'standby';
+ export declare type WatchQueryFetchPolicy = FetchPolicy | 'cache-and-network';
+ export declare type ErrorPolicy = 'none' | 'ignore' | 'all';
+-export interface QueryBaseOptions<TVariables = OperationVariables> {
+-    query: DocumentNode;
++export interface QueryBaseOptions<TVariables = OperationVariables, TData = any> {
++    query: DocumentNode | TypedDocumentNode<TData, TVariables>;
+     variables?: TVariables;
+     errorPolicy?: ErrorPolicy;
+     context?: any;
+ }
+-export interface QueryOptions<TVariables = OperationVariables> extends QueryBaseOptions<TVariables> {
++export interface QueryOptions<TVariables = OperationVariables, TData = any> extends QueryBaseOptions<TVariables, TData> {
+     fetchPolicy?: FetchPolicy;
+ }
+-export interface ModifiableWatchQueryOptions<TVariables = OperationVariables> extends QueryBaseOptions<TVariables> {
++export interface ModifiableWatchQueryOptions<TVariables = OperationVariables, TData = any> extends QueryBaseOptions<TVariables, TData> {
+     pollInterval?: number;
+     notifyOnNetworkStatusChange?: boolean;
+     returnPartialData?: boolean;
+     partialRefetch?: boolean;
+ }
+-export interface WatchQueryOptions<TVariables = OperationVariables> extends QueryBaseOptions<TVariables>, ModifiableWatchQueryOptions<TVariables> {
++export interface WatchQueryOptions<TVariables = OperationVariables, TData = any> extends QueryBaseOptions<TVariables, TData>, ModifiableWatchQueryOptions<TVariables, TData> {
+     fetchPolicy?: WatchQueryFetchPolicy;
+     nextFetchPolicy?: WatchQueryFetchPolicy;
+ }
+-export interface FetchMoreQueryOptions<TVariables, K extends keyof TVariables> {
+-    query?: DocumentNode;
++export interface FetchMoreQueryOptions<TVariables, K extends keyof TVariables, TData = any> {
++    query?: DocumentNode  | TypedDocumentNode<TData, TVariables>;
+     variables?: Pick<TVariables, K>;
+     context?: any;
+ }
+@@ -37,14 +38,14 @@ export declare type UpdateQueryFn<TData = any, TSubscriptionVariables = Operatio
+     variables?: TSubscriptionVariables;
+ }) => TData;
+ export declare type SubscribeToMoreOptions<TData = any, TSubscriptionVariables = OperationVariables, TSubscriptionData = TData> = {
+-    document: DocumentNode;
++    document: DocumentNode | TypedDocumentNode<TData, TSubscriptionVariables>;
+     variables?: TSubscriptionVariables;
+     updateQuery?: UpdateQueryFn<TData, TSubscriptionVariables, TSubscriptionData>;
+     onError?: (error: Error) => void;
+     context?: Record<string, any>;
+ };
+-export interface SubscriptionOptions<TVariables = OperationVariables> {
+-    query: DocumentNode;
++export interface SubscriptionOptions<TVariables = OperationVariables, TData = any> {
++    query: DocumentNode | TypedDocumentNode<TData, TVariables>;
+     variables?: TVariables;
+     fetchPolicy?: FetchPolicy;
+     context?: Record<string, any>;
+@@ -64,7 +65,7 @@ export interface MutationBaseOptions<T = {
+ export interface MutationOptions<T = {
+     [key: string]: any;
+ }, TVariables = OperationVariables> extends MutationBaseOptions<T, TVariables> {
+-    mutation: DocumentNode;
++    mutation: DocumentNode | TypedDocumentNode<T, TVariables>;
+     context?: any;
+     fetchPolicy?: Extract<FetchPolicy, 'no-cache'>;
+ }
+diff --git a/node_modules/@apollo/client/react/components/types.d.ts b/node_modules/@apollo/client/react/components/types.d.ts
+index 76fedd8..93fc2d0 100644
+--- a/node_modules/@apollo/client/react/components/types.d.ts
++++ b/node_modules/@apollo/client/react/components/types.d.ts
+@@ -1,17 +1,18 @@
+ /// <reference types="react" />
++import { TypedDocumentNode } from '@graphql-typed-document-node/core';
+ import { DocumentNode } from 'graphql';
+ import { OperationVariables } from '../../core';
+ import { QueryFunctionOptions, QueryResult, BaseMutationOptions, MutationFunction, MutationResult, BaseSubscriptionOptions, SubscriptionResult } from '../types/types';
+ export interface QueryComponentOptions<TData = any, TVariables = OperationVariables> extends QueryFunctionOptions<TData, TVariables> {
+     children: (result: QueryResult<TData, TVariables>) => JSX.Element | null;
+-    query: DocumentNode;
++    query: DocumentNode | TypedDocumentNode<TData, TVariables>;
+ }
+ export interface MutationComponentOptions<TData = any, TVariables = OperationVariables> extends BaseMutationOptions<TData, TVariables> {
+-    mutation: DocumentNode;
++    mutation: DocumentNode | TypedDocumentNode<TData, TVariables>;
+     children: (mutateFunction: MutationFunction<TData, TVariables>, result: MutationResult<TData>) => JSX.Element | null;
+ }
+ export interface SubscriptionComponentOptions<TData = any, TVariables = OperationVariables> extends BaseSubscriptionOptions<TData, TVariables> {
+-    subscription: DocumentNode;
++    subscription: DocumentNode | TypedDocumentNode<TData, TVariables>;
+     children?: null | ((result: SubscriptionResult<TData>) => JSX.Element | null);
+ }
+ //# sourceMappingURL=types.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/@apollo/client/react/hoc/types.d.ts b/node_modules/@apollo/client/react/hoc/types.d.ts
+index 40e1406..4f03b22 100644
+--- a/node_modules/@apollo/client/react/hoc/types.d.ts
++++ b/node_modules/@apollo/client/react/hoc/types.d.ts
+@@ -7,7 +7,7 @@ export interface QueryControls<TData = any, TGraphQLVariables = OperationVariabl
+     networkStatus: number;
+     loading: boolean;
+     variables: TGraphQLVariables;
+-    fetchMore: (fetchMoreOptions: FetchMoreQueryOptions<TGraphQLVariables, any> & FetchMoreOptions<TData, TGraphQLVariables>) => Promise<ApolloQueryResult<TData>>;
++    fetchMore: (fetchMoreOptions: FetchMoreQueryOptions<TGraphQLVariables, any, TData> & FetchMoreOptions<TData, TGraphQLVariables>) => Promise<ApolloQueryResult<TData>>;
+     refetch: (variables?: TGraphQLVariables) => Promise<ApolloQueryResult<TData>>;
+     startPolling: (pollInterval: number) => void;
+     stopPolling: () => void;
+diff --git a/node_modules/@apollo/client/react/hooks/useLazyQuery.d.ts b/node_modules/@apollo/client/react/hooks/useLazyQuery.d.ts
+index 3ebed6a..a2ab073 100644
+--- a/node_modules/@apollo/client/react/hooks/useLazyQuery.d.ts
++++ b/node_modules/@apollo/client/react/hooks/useLazyQuery.d.ts
+@@ -1,5 +1,6 @@
++import { TypedDocumentNode } from '@graphql-typed-document-node/core';
+ import { DocumentNode } from 'graphql';
+ import { LazyQueryHookOptions, QueryTuple } from '../types/types';
+ import { OperationVariables } from '../../core';
+-export declare function useLazyQuery<TData = any, TVariables = OperationVariables>(query: DocumentNode, options?: LazyQueryHookOptions<TData, TVariables>): QueryTuple<TData, TVariables>;
++export declare function useLazyQuery<TData = any, TVariables = OperationVariables>(query: DocumentNode | TypedDocumentNode<TData, TVariables>, options?: LazyQueryHookOptions<TData, TVariables>): QueryTuple<TData, TVariables>;
+ //# sourceMappingURL=useLazyQuery.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/@apollo/client/react/hooks/useMutation.d.ts b/node_modules/@apollo/client/react/hooks/useMutation.d.ts
+index 368217a..422cb81 100644
+--- a/node_modules/@apollo/client/react/hooks/useMutation.d.ts
++++ b/node_modules/@apollo/client/react/hooks/useMutation.d.ts
+@@ -1,5 +1,6 @@
++import { TypedDocumentNode } from '@graphql-typed-document-node/core';
+ import { DocumentNode } from 'graphql';
+ import { MutationHookOptions, MutationTuple } from '../types/types';
+ import { OperationVariables } from '../../core';
+-export declare function useMutation<TData = any, TVariables = OperationVariables>(mutation: DocumentNode, options?: MutationHookOptions<TData, TVariables>): MutationTuple<TData, TVariables>;
++export declare function useMutation<TData = any, TVariables = OperationVariables>(mutation: DocumentNode | TypedDocumentNode<TData, TVariables>, options?: MutationHookOptions<TData, TVariables>): MutationTuple<TData, TVariables>;
+ //# sourceMappingURL=useMutation.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/@apollo/client/react/hooks/useQuery.d.ts b/node_modules/@apollo/client/react/hooks/useQuery.d.ts
+index f54a231..933eefc 100644
+--- a/node_modules/@apollo/client/react/hooks/useQuery.d.ts
++++ b/node_modules/@apollo/client/react/hooks/useQuery.d.ts
+@@ -1,5 +1,6 @@
++import { TypedDocumentNode } from '@graphql-typed-document-node/core';
+ import { DocumentNode } from 'graphql';
+ import { QueryHookOptions, QueryResult } from '../types/types';
+ import { OperationVariables } from '../../core';
+-export declare function useQuery<TData = any, TVariables = OperationVariables>(query: DocumentNode, options?: QueryHookOptions<TData, TVariables>): QueryResult<TData, TVariables>;
++export declare function useQuery<TData = any, TVariables = OperationVariables>(query: DocumentNode | TypedDocumentNode<TData, TVariables>, options?: QueryHookOptions<TData, TVariables>): QueryResult<TData, TVariables>;
+ //# sourceMappingURL=useQuery.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/@apollo/client/react/hooks/useSubscription.d.ts b/node_modules/@apollo/client/react/hooks/useSubscription.d.ts
+index c71320d..fdcd3bf 100644
+--- a/node_modules/@apollo/client/react/hooks/useSubscription.d.ts
++++ b/node_modules/@apollo/client/react/hooks/useSubscription.d.ts
+@@ -1,8 +1,8 @@
++import { TypedDocumentNode } from '@graphql-typed-document-node/core';
+ import { DocumentNode } from 'graphql';
+ import { SubscriptionHookOptions } from '../types/types';
+ import { OperationVariables } from '../../core';
+-export declare function useSubscription<TData = any, TVariables = OperationVariables>(subscription: DocumentNode, options?: SubscriptionHookOptions<TData, TVariables>): {
+-    variables: TVariables | undefined;
++export declare function useSubscription<TData = any, TVariables = OperationVariables>(subscription: DocumentNode | TypedDocumentNode<TData, TVariables>, options?: SubscriptionHookOptions<TData, TVariables>): {    variables: TVariables | undefined;
+     loading: boolean;
+     data?: TData | undefined;
+     error?: import("../../errors").ApolloError | undefined;
+diff --git a/node_modules/@apollo/client/react/hooks/utils/useBaseQuery.d.ts b/node_modules/@apollo/client/react/hooks/utils/useBaseQuery.d.ts
+index 9eef686..2fda229 100644
+--- a/node_modules/@apollo/client/react/hooks/utils/useBaseQuery.d.ts
++++ b/node_modules/@apollo/client/react/hooks/utils/useBaseQuery.d.ts
+@@ -1,5 +1,6 @@
++import { TypedDocumentNode } from '@graphql-typed-document-node/core';
+ import { DocumentNode } from 'graphql';
+ import { QueryHookOptions, QueryTuple, QueryResult } from '../../types/types';
+ import { OperationVariables } from '../../../core';
+-export declare function useBaseQuery<TData = any, TVariables = OperationVariables>(query: DocumentNode, options?: QueryHookOptions<TData, TVariables>, lazy?: boolean): QueryTuple<TData, TVariables> | QueryResult<TData, TVariables>;
++export declare function useBaseQuery<TData = any, TVariables = OperationVariables>(query: DocumentNode | TypedDocumentNode<TData, TVariables>, options?: QueryHookOptions<TData, TVariables>, lazy?: boolean): QueryTuple<TData, TVariables> | QueryResult<TData, TVariables>;
+ //# sourceMappingURL=useBaseQuery.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/@apollo/client/react/types/types.d.ts b/node_modules/@apollo/client/react/types/types.d.ts
+index 2709f29..8304ad9 100644
+--- a/node_modules/@apollo/client/react/types/types.d.ts
++++ b/node_modules/@apollo/client/react/types/types.d.ts
+@@ -1,4 +1,5 @@
+ /// <reference types="zen-observable" />
++import { TypedDocumentNode } from '@graphql-typed-document-node/core';
+ import { ReactNode } from 'react';
+ import { DocumentNode } from 'graphql';
+ import { Observable } from '../../utilities';
+@@ -30,9 +31,9 @@ export interface QueryFunctionOptions<TData = any, TVariables = OperationVariabl
+     onError?: (error: ApolloError) => void;
+ }
+ export declare type ObservableQueryFields<TData, TVariables> = Pick<ObservableQuery<TData, TVariables>, 'startPolling' | 'stopPolling' | 'subscribeToMore' | 'updateQuery' | 'refetch' | 'variables'> & {
+-    fetchMore: (<K extends keyof TVariables>(fetchMoreOptions: FetchMoreQueryOptions<TVariables, K> & FetchMoreOptions<TData, TVariables>) => Promise<ApolloQueryResult<TData>>) & (<TData2, TVariables2, K extends keyof TVariables2>(fetchMoreOptions: {
+-        query?: DocumentNode;
+-    } & FetchMoreQueryOptions<TVariables2, K> & FetchMoreOptions<TData2, TVariables2>) => Promise<ApolloQueryResult<TData2>>);
++    fetchMore: (<K extends keyof TVariables>(fetchMoreOptions: FetchMoreQueryOptions<TVariables, K, TData> & FetchMoreOptions<TData, TVariables>) => Promise<ApolloQueryResult<TData>>) & (<TData2, TVariables2, K extends keyof TVariables2>(fetchMoreOptions: {
++        query?: DocumentNode | TypedDocumentNode<TData, TVariables>;
++    } & FetchMoreQueryOptions<TVariables2, K, TData> & FetchMoreOptions<TData2, TVariables2>) => Promise<ApolloQueryResult<TData2>>);
+ };
+ export interface QueryResult<TData = any, TVariables = OperationVariables> extends ObservableQueryFields<TData, TVariables> {
+     client: ApolloClient<any>;
+@@ -44,17 +45,17 @@ export interface QueryResult<TData = any, TVariables = OperationVariables> exten
+ }
+ export interface QueryDataOptions<TData = any, TVariables = OperationVariables> extends QueryFunctionOptions<TData, TVariables> {
+     children?: (result: QueryResult<TData, TVariables>) => ReactNode;
+-    query: DocumentNode;
++    query: DocumentNode | TypedDocumentNode<TData, TVariables>;
+ }
+ export interface QueryHookOptions<TData = any, TVariables = OperationVariables> extends QueryFunctionOptions<TData, TVariables> {
+-    query?: DocumentNode;
++    query?: DocumentNode | TypedDocumentNode<TData, TVariables>;
+ }
+ export interface LazyQueryHookOptions<TData = any, TVariables = OperationVariables> extends Omit<QueryFunctionOptions<TData, TVariables>, 'skip'> {
+-    query?: DocumentNode;
++    query?: DocumentNode | TypedDocumentNode<TData, TVariables>;
+ }
+ export interface QueryPreviousData<TData, TVariables> {
+     client?: ApolloClient<object>;
+-    query?: DocumentNode;
++    query?: DocumentNode | TypedDocumentNode<TData, TVariables>;
+     observableQueryOptions?: {};
+     result?: QueryResult<TData, TVariables> | null;
+     loading?: boolean;
+@@ -112,10 +113,10 @@ export interface MutationResult<TData = any> {
+ }
+ export declare type MutationFunction<TData = any, TVariables = OperationVariables> = (options?: MutationFunctionOptions<TData, TVariables>) => Promise<FetchResult<TData>>;
+ export interface MutationHookOptions<TData = any, TVariables = OperationVariables> extends BaseMutationOptions<TData, TVariables> {
+-    mutation?: DocumentNode;
++    mutation?: DocumentNode | TypedDocumentNode<TData, TVariables>;
+ }
+ export interface MutationDataOptions<TData = any, TVariables = OperationVariables> extends BaseMutationOptions<TData, TVariables> {
+-    mutation: DocumentNode;
++    mutation: DocumentNode | TypedDocumentNode<TData, TVariables>;
+ }
+ export declare type MutationTuple<TData, TVariables> = [(options?: MutationFunctionOptions<TData, TVariables>) => Promise<FetchResult<TData>>, MutationResult<TData>];
+ export interface OnSubscriptionDataOptions<TData = any> {
+@@ -137,10 +138,10 @@ export interface SubscriptionResult<TData = any> {
+     error?: ApolloError;
+ }
+ export interface SubscriptionHookOptions<TData = any, TVariables = OperationVariables> extends BaseSubscriptionOptions<TData, TVariables> {
+-    subscription?: DocumentNode;
++    subscription?: DocumentNode | TypedDocumentNode<TData, TVariables>;
+ }
+ export interface SubscriptionDataOptions<TData = any, TVariables = OperationVariables> extends BaseSubscriptionOptions<TData, TVariables> {
+-    subscription: DocumentNode;
++    subscription: DocumentNode | TypedDocumentNode<TData, TVariables>;
+     children?: null | ((result: SubscriptionResult<TData>) => JSX.Element | null);
+ }
+ export interface SubscriptionCurrentObservable {

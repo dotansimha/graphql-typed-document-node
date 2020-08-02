@@ -11,23 +11,38 @@
   "typescript": {
     "definition": "dist/index.d.ts"
   },
+  "bin": {
+    "patch-typed-document-node": "dist/patch-cli.js"
+  },
   "scripts": {
     "test": "jest",
-    "build": "tsc && bob build --single",
     "prepack": "bob prepack"
   },
+  "dependencies": {
+    "patch-package": "6.2.2",
+    "semver": "7.3.2"
+  },
   "devDependencies": {
+    "@types/tmp": "0.2.0",
+    "tmp": "0.2.1",
+    "@types/semver": "7.3.1",
     "@graphql-codegen/typed-document-node": "1.17.4",
     "@graphql-codegen/cli": "1.17.4",
     "@graphql-codegen/typescript": "1.17.4",
     "@graphql-codegen/typescript-operations": "1.17.4",
     "graphql": "15.3.0",
-    "bob-the-bundler": "1.0.2"
+    "typescript": "3.9.7"
   },
   "peerDependencies": {
     "graphql": "^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0"
   },
   "buildOptions": {
+    "copy": ["src/patches/*.patch"],
+    "bin": {
+      "patch-typed-document-node": {
+        "input": "src/patch-cli.ts"
+      }
+    },
     "input": "./src/index.ts"
   },
   "publishConfig": {

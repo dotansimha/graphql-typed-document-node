@@ -1,0 +1,34 @@
+diff --git a/node_modules/apollo-cache/lib/types/DataProxy.d.ts b/node_modules/apollo-cache/lib/types/DataProxy.d.ts
+index 992df92..43979af 100644
+--- a/node_modules/apollo-cache/lib/types/DataProxy.d.ts
++++ b/node_modules/apollo-cache/lib/types/DataProxy.d.ts
+@@ -1,12 +1,14 @@
+ import { DocumentNode } from 'graphql';
++import { TypedDocumentNode } from '@graphql-typed-document-node/core';
++
+ export declare namespace DataProxy {
+-    interface Query<TVariables> {
+-        query: DocumentNode;
++    interface Query<TVariables, TData = any> {
++        query: DocumentNode | TypedDocumentNode<TData, TVariables>;
+         variables?: TVariables;
+     }
+-    interface Fragment<TVariables> {
++    interface Fragment<TVariables, TData = any> {
+         id: string;
+-        fragment: DocumentNode;
++        fragment: DocumentNode | TypedDocumentNode<TData, TVariables>;
+         fragmentName?: string;
+         variables?: TVariables;
+     }
+@@ -26,8 +28,8 @@ export declare namespace DataProxy {
+     };
+ }
+ export interface DataProxy {
+-    readQuery<QueryType, TVariables = any>(options: DataProxy.Query<TVariables>, optimistic?: boolean): QueryType | null;
+-    readFragment<FragmentType, TVariables = any>(options: DataProxy.Fragment<TVariables>, optimistic?: boolean): FragmentType | null;
++    readQuery<QueryType, TVariables = any>(options: DataProxy.Query<TVariables, QueryType>, optimistic?: boolean): QueryType | null;
++    readFragment<FragmentType, TVariables = any>(options: DataProxy.Fragment<TVariables, FragmentType>, optimistic?: boolean): FragmentType | null;
+     writeQuery<TData = any, TVariables = any>(options: DataProxy.WriteQueryOptions<TData, TVariables>): void;
+     writeFragment<TData = any, TVariables = any>(options: DataProxy.WriteFragmentOptions<TData, TVariables>): void;
+     writeData<TData = any>(options: DataProxy.WriteDataOptions<TData>): void;

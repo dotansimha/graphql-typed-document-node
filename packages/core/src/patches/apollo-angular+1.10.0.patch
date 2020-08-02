@@ -1,0 +1,129 @@
+diff --git a/node_modules/apollo-angular/apollo.d.ts b/node_modules/apollo-angular/apollo.d.ts
+index 6fa221b..bb1a410 100644
+--- a/node_modules/apollo-angular/apollo.d.ts
++++ b/node_modules/apollo-angular/apollo.d.ts
+@@ -8,10 +8,10 @@ export declare class ApolloBase<TCacheShape = any> {
+     protected ngZone: NgZone;
+     protected _client?: ApolloClient<TCacheShape>;
+     constructor(ngZone: NgZone, _client?: ApolloClient<TCacheShape>);
+-    watchQuery<T, V = R>(options: WatchQueryOptions<V>): QueryRef<T, V>;
+-    query<T, V = R>(options: QueryOptions<V>): Observable<ApolloQueryResult<T>>;
++    watchQuery<T, V = R>(options: WatchQueryOptions<V, T>): QueryRef<T, V>;
++    query<T, V = R>(options: QueryOptions<V, T>): Observable<ApolloQueryResult<T>>;
+     mutate<T, V = R>(options: MutationOptions<T, V>): Observable<FetchResult<T>>;
+-    subscribe<T, V = R>(options: SubscriptionOptions<V>, extra?: ExtraSubscriptionOptions): Observable<FetchResult<T>>;
++    subscribe<T, V = R>(options: SubscriptionOptions<V, T>, extra?: ExtraSubscriptionOptions): Observable<FetchResult<T>>;
+     /**
+      * Get an access to an instance of ApolloClient
+      */
+diff --git a/node_modules/apollo-angular/mutation.d.ts b/node_modules/apollo-angular/mutation.d.ts
+index 8342f8d..1b2ef12 100644
+--- a/node_modules/apollo-angular/mutation.d.ts
++++ b/node_modules/apollo-angular/mutation.d.ts
+@@ -1,3 +1,4 @@
++import { TypedDocumentNode } from "@graphql-typed-document-node/core";
+ import { DocumentNode } from 'graphql';
+ import { Observable } from 'rxjs';
+ import { FetchResult } from 'apollo-link';
+@@ -5,7 +6,7 @@ import { Apollo } from './apollo';
+ import { MutationOptionsAlone, R } from './types';
+ export declare class Mutation<T = {}, V = R> {
+     protected apollo: Apollo;
+-    readonly document: DocumentNode;
++    readonly document: DocumentNode | TypedDocumentNode<T, V>;
+     client: string;
+     constructor(apollo: Apollo);
+     mutate(variables?: V, options?: MutationOptionsAlone<T, V>): Observable<FetchResult<T>>;
+diff --git a/node_modules/apollo-angular/query-ref.d.ts b/node_modules/apollo-angular/query-ref.d.ts
+index 68dfd69..64ed744 100644
+--- a/node_modules/apollo-angular/query-ref.d.ts
++++ b/node_modules/apollo-angular/query-ref.d.ts
+@@ -8,7 +8,7 @@ export declare class QueryRef<T, V = R> {
+     options: ObservableQuery<T, V>['options'];
+     queryId: ObservableQuery<T, V>['queryId'];
+     variables: V;
+-    constructor(obsQuery: ObservableQuery<T, V>, ngZone: NgZone, options: WatchQueryOptions<V>);
++    constructor(obsQuery: ObservableQuery<T, V>, ngZone: NgZone, options: WatchQueryOptions<V, T>);
+     result(): Promise<ApolloQueryResult<T>>;
+     currentResult(): ApolloCurrentResult<T>;
+     getLastResult(): ApolloQueryResult<T>;
+diff --git a/node_modules/apollo-angular/query.d.ts b/node_modules/apollo-angular/query.d.ts
+index c2464ca..dba7b68 100644
+--- a/node_modules/apollo-angular/query.d.ts
++++ b/node_modules/apollo-angular/query.d.ts
+@@ -1,3 +1,4 @@
++import { TypedDocumentNode } from "@graphql-typed-document-node/core";
+ import { DocumentNode } from 'graphql';
+ import { ApolloQueryResult } from 'apollo-client';
+ import { Observable } from 'rxjs';
+@@ -6,9 +7,9 @@ import { QueryRef } from './query-ref';
+ import { WatchQueryOptionsAlone, QueryOptionsAlone, R } from './types';
+ export declare class Query<T = {}, V = R> {
+     protected apollo: Apollo;
+-    readonly document: DocumentNode;
++    readonly document: DocumentNode | TypedDocumentNode<T, V>;
+     client: string;
+     constructor(apollo: Apollo);
+-    watch(variables?: V, options?: WatchQueryOptionsAlone<V>): QueryRef<T, V>;
+-    fetch(variables?: V, options?: QueryOptionsAlone<V>): Observable<ApolloQueryResult<T>>;
++    watch(variables?: V, options?: WatchQueryOptionsAlone<V, T>): QueryRef<T, V>;
++    fetch(variables?: V, options?: QueryOptionsAlone<V, T>): Observable<ApolloQueryResult<T>>;
+ }
+diff --git a/node_modules/apollo-angular/subscription.d.ts b/node_modules/apollo-angular/subscription.d.ts
+index 8db72d2..d2c7c9a 100644
+--- a/node_modules/apollo-angular/subscription.d.ts
++++ b/node_modules/apollo-angular/subscription.d.ts
+@@ -1,11 +1,12 @@
++import { TypedDocumentNode } from "@graphql-typed-document-node/core";
+ import { DocumentNode } from 'graphql';
+ import { Observable } from 'rxjs';
+ import { Apollo } from './apollo';
+ import { SubscriptionOptionsAlone, ExtraSubscriptionOptions, SubscriptionResult, R } from './types';
+ export declare class Subscription<T = any, V = R> {
+     protected apollo: Apollo;
+-    readonly document: DocumentNode;
++    readonly document: DocumentNode | TypedDocumentNode<T, V>;
+     client: string;
+     constructor(apollo: Apollo);
+-    subscribe(variables?: V, options?: SubscriptionOptionsAlone<V>, extra?: ExtraSubscriptionOptions): Observable<SubscriptionResult<T>>;
++    subscribe(variables?: V, options?: SubscriptionOptionsAlone<V, T>, extra?: ExtraSubscriptionOptions): Observable<SubscriptionResult<T>>;
+ }
+diff --git a/node_modules/apollo-angular/types.d.ts b/node_modules/apollo-angular/types.d.ts
+index 76b32de..7062771 100644
+--- a/node_modules/apollo-angular/types.d.ts
++++ b/node_modules/apollo-angular/types.d.ts
+@@ -1,3 +1,5 @@
++import { TypedDocumentNode } from "@graphql-typed-document-node/core";
++import { DocumentNode } from 'graphql';
+ import { WatchQueryOptions as CoreWatchQueryOptions, QueryOptions as CoreQueryOptions, MutationOptions as CoreMutationOptions, SubscriptionOptions as CoreSubscriptionOptions, ApolloClientOptions } from 'apollo-client';
+ import { ExecutionResult } from 'graphql';
+ export declare type R = {
+@@ -7,15 +9,15 @@ export interface ExtraSubscriptionOptions {
+     useZone?: boolean;
+ }
+ export declare type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+-export interface WatchQueryOptionsAlone<V> extends Omit<WatchQueryOptions<V>, 'query' | 'variables'> {
++export interface WatchQueryOptionsAlone<V, R> extends Omit<WatchQueryOptions<V, R>, 'query' | 'variables'> {
+ }
+-export interface QueryOptionsAlone<V> extends Omit<CoreQueryOptions<V>, 'query' | 'variables'> {
++export interface QueryOptionsAlone<V, T> extends Omit<CoreQueryOptions<V, T>, 'query' | 'variables'> {
+ }
+ export interface MutationOptionsAlone<T, V> extends Omit<CoreMutationOptions<T, V>, 'mutation' | 'variables'> {
+ }
+-export interface SubscriptionOptionsAlone<V> extends Omit<CoreSubscriptionOptions<V>, 'query' | 'variables'> {
++export interface SubscriptionOptionsAlone<V, T> extends Omit<CoreSubscriptionOptions<V, T>, 'query' | 'variables'> {
+ }
+-export interface WatchQueryOptions<V> extends CoreWatchQueryOptions<V> {
++export interface WatchQueryOptions<V, R> extends Omit<CoreWatchQueryOptions<V, R>, 'query'> {
+     /**
+      * Observable starts with `{ loading: true }`.
+      * There's a big chance the next major version will enable that by default.
+@@ -23,6 +25,8 @@ export interface WatchQueryOptions<V> extends CoreWatchQueryOptions<V> {
+      * Disabled by default
+      */
+     useInitialLoading?: boolean;
++
++    query: DocumentNode | TypedDocumentNode<R, V>;
+ }
+ export interface SubscriptionResult<T> extends ExecutionResult {
+     data?: T;

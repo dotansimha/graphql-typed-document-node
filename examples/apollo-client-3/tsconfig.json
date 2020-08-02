@@ -20,8 +20,7 @@
     "alwaysStrict": true,
     "noImplicitReturns": true,
     "noUnusedLocals": false,
-    "resolveJsonModule": true,
-    "types": ["node", "@graphql-typed-document-node/apollo-client-3"]
+    "resolveJsonModule": true
   },
   "include": ["./"],
   "exclude": [

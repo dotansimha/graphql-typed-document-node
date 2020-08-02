@@ -1,0 +1,103 @@
+diff --git a/node_modules/@apollo/react-hooks/lib/types.d.ts b/node_modules/@apollo/react-hooks/lib/types.d.ts
+index 37d9d63..85cb694 100644
+--- a/node_modules/@apollo/react-hooks/lib/types.d.ts
++++ b/node_modules/@apollo/react-hooks/lib/types.d.ts
+@@ -4,22 +4,24 @@ import { ApolloClient, ObservableQuery, ApolloError } from 'apollo-client';
+ import { Observable } from 'apollo-link';
+ import { OperationVariables, QueryFunctionOptions, QueryResult, BaseMutationOptions, MutationResult, MutationFunctionOptions, ExecutionResult, BaseSubscriptionOptions, SubscriptionResult, Context } from '@apollo/react-common';
+ import { DocumentNode } from 'graphql';
++import { TypedDocumentNode } from "@graphql-typed-document-node/core";
++
+ export declare type CommonOptions<TOptions> = TOptions & {
+     client?: ApolloClient<object>;
+ };
+ export interface QueryOptions<TData = any, TVariables = OperationVariables> extends QueryFunctionOptions<TData, TVariables> {
+     children?: (result: QueryResult<TData, TVariables>) => ReactNode;
+-    query: DocumentNode;
++    query: DocumentNode | TypedDocumentNode<TData, TVariables>;
+ }
+ export interface QueryHookOptions<TData = any, TVariables = OperationVariables> extends QueryFunctionOptions<TData, TVariables> {
+-    query?: DocumentNode;
++    query?: DocumentNode | TypedDocumentNode<TData, TVariables>;
+ }
+ export interface LazyQueryHookOptions<TData = any, TVariables = OperationVariables> extends Omit<QueryFunctionOptions<TData, TVariables>, 'skip'> {
+-    query?: DocumentNode;
++    query?: DocumentNode | TypedDocumentNode<TData, TVariables>;
+ }
+ export interface QueryPreviousData<TData, TVariables> {
+     client?: ApolloClient<object>;
+-    query?: DocumentNode;
++    query?: DocumentNode | TypedDocumentNode<TData, TVariables>;
+     observableQueryOptions?: {};
+     result?: QueryResult<TData, TVariables> | null;
+     loading?: boolean;
+@@ -36,17 +38,17 @@ export interface QueryLazyOptions<TVariables> {
+ }
+ export declare type QueryTuple<TData, TVariables> = [(options?: QueryLazyOptions<TVariables>) => void, QueryResult<TData, TVariables>];
+ export interface MutationHookOptions<TData = any, TVariables = OperationVariables> extends BaseMutationOptions<TData, TVariables> {
+-    mutation?: DocumentNode;
++    mutation?: DocumentNode | TypedDocumentNode<TData, TVariables>;
+ }
+ export interface MutationOptions<TData = any, TVariables = OperationVariables> extends BaseMutationOptions<TData, TVariables> {
+-    mutation: DocumentNode;
++    mutation: DocumentNode | TypedDocumentNode<TData, TVariables>;
+ }
+ export declare type MutationTuple<TData, TVariables> = [(options?: MutationFunctionOptions<TData, TVariables>) => Promise<ExecutionResult<TData>>, MutationResult<TData>];
+ export interface SubscriptionHookOptions<TData = any, TVariables = OperationVariables> extends BaseSubscriptionOptions<TData, TVariables> {
+-    subscription?: DocumentNode;
++    subscription?: DocumentNode | TypedDocumentNode<TData, TVariables>;
+ }
+ export interface SubscriptionOptions<TData = any, TVariables = OperationVariables> extends BaseSubscriptionOptions<TData, TVariables> {
+-    subscription: DocumentNode;
++    subscription: DocumentNode | TypedDocumentNode<TData, TVariables>;
+     children?: null | ((result: SubscriptionResult<TData>) => JSX.Element | null);
+ }
+ export interface SubscriptionCurrentObservable {
+diff --git a/node_modules/@apollo/react-hooks/lib/useLazyQuery.d.ts b/node_modules/@apollo/react-hooks/lib/useLazyQuery.d.ts
+index 5339744..ac2b206 100644
+--- a/node_modules/@apollo/react-hooks/lib/useLazyQuery.d.ts
++++ b/node_modules/@apollo/react-hooks/lib/useLazyQuery.d.ts
+@@ -1,4 +1,6 @@
+ import { OperationVariables } from '@apollo/react-common';
+ import { DocumentNode } from 'graphql';
+ import { LazyQueryHookOptions, QueryTuple } from './types';
+-export declare function useLazyQuery<TData = any, TVariables = OperationVariables>(query: DocumentNode, options?: LazyQueryHookOptions<TData, TVariables>): QueryTuple<TData, TVariables>;
++import { TypedDocumentNode } from "@graphql-typed-document-node/core";
++
++export declare function useLazyQuery<TData = any, TVariables = OperationVariables>(query: DocumentNode | TypedDocumentNode<TData, TVariables>, options?: LazyQueryHookOptions<TData, TVariables>): QueryTuple<TData, TVariables>;
+diff --git a/node_modules/@apollo/react-hooks/lib/useMutation.d.ts b/node_modules/@apollo/react-hooks/lib/useMutation.d.ts
+index cbd07b1..c6e1a12 100644
+--- a/node_modules/@apollo/react-hooks/lib/useMutation.d.ts
++++ b/node_modules/@apollo/react-hooks/lib/useMutation.d.ts
+@@ -1,4 +1,5 @@
+ import { OperationVariables } from '@apollo/react-common';
+ import { DocumentNode } from 'graphql';
+ import { MutationHookOptions, MutationTuple } from './types';
+-export declare function useMutation<TData = any, TVariables = OperationVariables>(mutation: DocumentNode, options?: MutationHookOptions<TData, TVariables>): MutationTuple<TData, TVariables>;
++import { TypedDocumentNode } from "@graphql-typed-document-node/core";
++export declare function useMutation<TData = any, TVariables = OperationVariables>(mutation: DocumentNode | TypedDocumentNode<TData, TVariables>, options?: MutationHookOptions<TData, TVariables>): MutationTuple<TData, TVariables>;
+diff --git a/node_modules/@apollo/react-hooks/lib/useQuery.d.ts b/node_modules/@apollo/react-hooks/lib/useQuery.d.ts
+index 942d080..13dd47f 100644
+--- a/node_modules/@apollo/react-hooks/lib/useQuery.d.ts
++++ b/node_modules/@apollo/react-hooks/lib/useQuery.d.ts
+@@ -1,4 +1,5 @@
+ import { OperationVariables, QueryResult } from '@apollo/react-common';
+ import { DocumentNode } from 'graphql';
+ import { QueryHookOptions } from './types';
+-export declare function useQuery<TData = any, TVariables = OperationVariables>(query: DocumentNode, options?: QueryHookOptions<TData, TVariables>): QueryResult<TData, TVariables>;
++import { TypedDocumentNode } from "@graphql-typed-document-node/core";
++export declare function useQuery<TData = any, TVariables = OperationVariables>(query: DocumentNode | TypedDocumentNode<TData, TVariables>, options?: QueryHookOptions<TData, TVariables>): QueryResult<TData, TVariables>;
+diff --git a/node_modules/@apollo/react-hooks/lib/useSubscription.d.ts b/node_modules/@apollo/react-hooks/lib/useSubscription.d.ts
+index f803916..ad703ab 100644
+--- a/node_modules/@apollo/react-hooks/lib/useSubscription.d.ts
++++ b/node_modules/@apollo/react-hooks/lib/useSubscription.d.ts
+@@ -1,7 +1,8 @@
+ import { DocumentNode } from 'graphql';
+ import { OperationVariables } from '@apollo/react-common';
+ import { SubscriptionHookOptions } from './types';
+-export declare function useSubscription<TData = any, TVariables = OperationVariables>(subscription: DocumentNode, options?: SubscriptionHookOptions<TData, TVariables>): {
++import { TypedDocumentNode } from "@graphql-typed-document-node/core";
++export declare function useSubscription<TData = any, TVariables = OperationVariables>(subscription: DocumentNode | TypedDocumentNode<TData, TVariables>, options?: SubscriptionHookOptions<TData, TVariables>): {
+     variables: TVariables | undefined;
+     loading: boolean;
+     data?: TData | undefined;

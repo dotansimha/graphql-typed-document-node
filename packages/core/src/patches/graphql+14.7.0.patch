@@ -1,0 +1,50 @@
+diff --git a/node_modules/graphql/execution/execute.d.ts b/node_modules/graphql/execution/execute.d.ts
+index d11bca3..c897754 100644
+--- a/node_modules/graphql/execution/execute.d.ts
++++ b/node_modules/graphql/execution/execute.d.ts
+@@ -1,7 +1,7 @@
+ import Maybe from '../tsutils/Maybe';
+ import { PromiseOrValue } from '../jsutils/PromiseOrValue';
+ import { Path, addPath, pathToArray } from '../jsutils/Path';
+-
++import { TypedDocumentNode } from "@graphql-typed-document-node/core";
+ import { GraphQLError } from '../error/GraphQLError';
+ import { GraphQLFormattedError } from '../error/formatError';
+ 
+@@ -62,12 +62,12 @@ export interface FormattedExecutionResult<TData = ExecutionResultDataDefault> {
+   data?: TData | null;
+ }
+ 
+-export type ExecutionArgs = {
++export type ExecutionArgs<TData, TVariables> = {
+   schema: GraphQLSchema;
+-  document: DocumentNode;
++  document: DocumentNode | TypedDocumentNode<TData, TVariables>;
+   rootValue?: any;
+   contextValue?: any;
+-  variableValues?: Maybe<{ [key: string]: any }>;
++  variableValues?: Maybe<TVariables>;
+   operationName?: Maybe<string>;
+   fieldResolver?: Maybe<GraphQLFieldResolver<any, any>>;
+   typeResolver?: Maybe<GraphQLTypeResolver<any, any>>;
+@@ -85,15 +85,15 @@ export type ExecutionArgs = {
+  *
+  * Accepts either an object with named arguments, or individual arguments.
+  */
+-export function execute<TData = ExecutionResultDataDefault>(
+-  args: ExecutionArgs,
++export function execute<TData = ExecutionResultDataDefault, TVariables = any>(
++  args: ExecutionArgs<TData, TVariables>,
+ ): PromiseOrValue<ExecutionResult<TData>>;
+-export function execute<TData = ExecutionResultDataDefault>(
++export function execute<TData = ExecutionResultDataDefault, TVariables = any>(
+   schema: GraphQLSchema,
+-  document: DocumentNode,
++  document: DocumentNode | TypedDocumentNode<TData, TVariables>,
+   rootValue?: any,
+   contextValue?: any,
+-  variableValues?: Maybe<{ [key: string]: any }>,
++  variableValues?: Maybe<TVariables>,
+   operationName?: Maybe<string>,
+   fieldResolver?: Maybe<GraphQLFieldResolver<any, any>>,
+   typeResolver?: Maybe<GraphQLTypeResolver<any, any>>,
