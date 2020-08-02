@@ -1,0 +1,110 @@
+diff --git a/node_modules/urql/dist/types/components/Mutation.d.ts b/node_modules/urql/dist/types/components/Mutation.d.ts
+index d8d5d2b..9718e7c 100644
+--- a/node_modules/urql/dist/types/components/Mutation.d.ts
++++ b/node_modules/urql/dist/types/components/Mutation.d.ts
+@@ -1,9 +1,10 @@
++import { TypedDocumentNode } from "@graphql-typed-document-node/core";
+ import { ReactElement } from 'react';
+ import { DocumentNode } from 'graphql';
+ import { OperationResult, OperationContext } from '@urql/core';
+ import { UseMutationState } from '../hooks';
+ export interface MutationProps<T, V> {
+-    query: DocumentNode | string;
++    query: DocumentNode | string | TypedDocumentNode<T, V>;
+     children: (arg: MutationState<T, V>) => ReactElement<any>;
+ }
+ export interface MutationState<T, V> extends UseMutationState<T> {
+diff --git a/node_modules/urql/dist/types/components/Query.d.ts b/node_modules/urql/dist/types/components/Query.d.ts
+index 924ff9b..dc9ec03 100644
+--- a/node_modules/urql/dist/types/components/Query.d.ts
++++ b/node_modules/urql/dist/types/components/Query.d.ts
+@@ -1,7 +1,7 @@
+ import { ReactElement } from 'react';
+ import { OperationContext } from '@urql/core';
+ import { UseQueryArgs, UseQueryState } from '../hooks';
+-export interface QueryProps<T, V> extends UseQueryArgs<V> {
++export interface QueryProps<T, V> extends UseQueryArgs<V, T> {
+     children: (arg: QueryState<T>) => ReactElement<any>;
+ }
+ export interface QueryState<T> extends UseQueryState<T> {
+diff --git a/node_modules/urql/dist/types/components/Subscription.d.ts b/node_modules/urql/dist/types/components/Subscription.d.ts
+index 5012987..f02035a 100644
+--- a/node_modules/urql/dist/types/components/Subscription.d.ts
++++ b/node_modules/urql/dist/types/components/Subscription.d.ts
+@@ -1,7 +1,7 @@
+ import { ReactElement } from 'react';
+ import { OperationContext } from '@urql/core';
+ import { UseSubscriptionArgs, UseSubscriptionState, SubscriptionHandler } from '../hooks';
+-export interface SubscriptionProps<T, R, V> extends UseSubscriptionArgs<V> {
++export interface SubscriptionProps<T, R, V> extends UseSubscriptionArgs<V, T> {
+     handler?: SubscriptionHandler<T, R>;
+     children: (arg: SubscriptionState<R>) => ReactElement<any>;
+ }
+diff --git a/node_modules/urql/dist/types/hooks/useMutation.d.ts b/node_modules/urql/dist/types/hooks/useMutation.d.ts
+index 5fba795..38182bc 100644
+--- a/node_modules/urql/dist/types/hooks/useMutation.d.ts
++++ b/node_modules/urql/dist/types/hooks/useMutation.d.ts
+@@ -1,3 +1,4 @@
++import { TypedDocumentNode } from "@graphql-typed-document-node/core";
+ import { DocumentNode } from 'graphql';
+ import { OperationResult, OperationContext, CombinedError, Operation } from '@urql/core';
+ export interface UseMutationState<T> {
+@@ -9,4 +10,4 @@ export interface UseMutationState<T> {
+     operation?: Operation;
+ }
+ export declare type UseMutationResponse<T, V> = [UseMutationState<T>, (variables?: V, context?: Partial<OperationContext>) => Promise<OperationResult<T>>];
+-export declare function useMutation<T = any, V = object>(query: DocumentNode | string): UseMutationResponse<T, V>;
++export declare function useMutation<T = any, V = object>(query: DocumentNode | string | TypedDocumentNode<T, V>): UseMutationResponse<T, V>;
+diff --git a/node_modules/urql/dist/types/hooks/useQuery.d.ts b/node_modules/urql/dist/types/hooks/useQuery.d.ts
+index ee731e2..d21d01f 100644
+--- a/node_modules/urql/dist/types/hooks/useQuery.d.ts
++++ b/node_modules/urql/dist/types/hooks/useQuery.d.ts
+@@ -1,7 +1,8 @@
++import { TypedDocumentNode } from "@graphql-typed-document-node/core";
+ import { DocumentNode } from 'graphql';
+ import { CombinedError, OperationContext, RequestPolicy, Operation } from '@urql/core';
+-export interface UseQueryArgs<V> {
+-    query: string | DocumentNode;
++export interface UseQueryArgs<V, T> {
++    query: string | DocumentNode | TypedDocumentNode<T, V>;
+     variables?: V;
+     requestPolicy?: RequestPolicy;
+     pollInterval?: number;
+@@ -17,4 +18,4 @@ export interface UseQueryState<T> {
+     operation?: Operation;
+ }
+ export declare type UseQueryResponse<T> = [UseQueryState<T>, (opts?: Partial<OperationContext>) => void];
+-export declare function useQuery<T = any, V = object>(args: UseQueryArgs<V>): UseQueryResponse<T>;
++export declare function useQuery<T = any, V = object>(args: UseQueryArgs<V, T>): UseQueryResponse<T>;
+diff --git a/node_modules/urql/dist/types/hooks/useRequest.d.ts b/node_modules/urql/dist/types/hooks/useRequest.d.ts
+index 96599c8..4d3e179 100644
+--- a/node_modules/urql/dist/types/hooks/useRequest.d.ts
++++ b/node_modules/urql/dist/types/hooks/useRequest.d.ts
+@@ -1,4 +1,5 @@
++import { TypedDocumentNode } from "@graphql-typed-document-node/core";
+ import { DocumentNode } from 'graphql';
+ import { GraphQLRequest } from '@urql/core';
+ /** Creates a request from a query and variables but preserves reference equality if the key isn't changing */
+-export declare function useRequest(query: string | DocumentNode, variables?: any): GraphQLRequest;
++export declare function useRequest<TData = any, TVariables = any>(query: string | DocumentNode | TypedDocumentNode<TData, TVariables>, variables?: TVariables): GraphQLRequest<TData, TVariables>;
+diff --git a/node_modules/urql/dist/types/hooks/useSubscription.d.ts b/node_modules/urql/dist/types/hooks/useSubscription.d.ts
+index fce1220..9ab5f26 100644
+--- a/node_modules/urql/dist/types/hooks/useSubscription.d.ts
++++ b/node_modules/urql/dist/types/hooks/useSubscription.d.ts
+@@ -1,7 +1,8 @@
++import { TypedDocumentNode } from "@graphql-typed-document-node/core";
+ import { DocumentNode } from 'graphql';
+ import { CombinedError, OperationContext, Operation } from '@urql/core';
+-export interface UseSubscriptionArgs<V> {
+-    query: DocumentNode | string;
++export interface UseSubscriptionArgs<V, T> {
++    query: DocumentNode | string | TypedDocumentNode<T, V>;
+     variables?: V;
+     pause?: boolean;
+     context?: Partial<OperationContext>;
+@@ -16,4 +17,4 @@ export interface UseSubscriptionState<T> {
+     operation?: Operation;
+ }
+ export declare type UseSubscriptionResponse<T> = [UseSubscriptionState<T>, (opts?: Partial<OperationContext>) => void];
+-export declare function useSubscription<T = any, R = T, V = object>(args: UseSubscriptionArgs<V>, handler?: SubscriptionHandler<T, R>): UseSubscriptionResponse<R>;
++export declare function useSubscription<T = any, R = T, V = object>(args: UseSubscriptionArgs<V, T>, handler?: SubscriptionHandler<T, R>): UseSubscriptionResponse<R>;
