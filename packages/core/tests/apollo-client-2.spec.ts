@@ -11,7 +11,7 @@ describe('ApolloClient v2', () => {
       });
 
       describe('readQuery', () => {
-        it('should return valid type when patch is performed', async () => {
+        it.only('should return valid type when patch is performed', async () => {
           projectDirectory.patch();
           const { assertTsErrors, getCompilationErrors, getIdentifierInferredType } = await createProgram(projectDirectory.dir, `
           import { RatesDocument } from './types';
