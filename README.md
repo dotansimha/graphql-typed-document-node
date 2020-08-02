@@ -12,7 +12,7 @@ It made possible by [TypeScript type inference](https://www.typescriptlang.org/d
 
 This project works in the following way:
 
-1. Configure your project to use this library (see `Getting Started`).
+1. Configure your project to use this library (see `How to use?`).
 2. You write your GraphQL operations (`query` / `mutation` / `subscription` / `fragment`) in any way your prefer (for example - in a `.graphql` file).
 3. [GraphQL Code Generator](https://graphql-code-generator.com/) will generate a `TypedDocumentNode` for your operations (which is a bundle of pre-compiled `DocumentNode` with the operation result type and variables type).
 4. Instead of using your `.graphql` file - import the generated `TypedDocumentNode` and use it with your GraphQL client framework.
@@ -42,7 +42,7 @@ To use this library, following these instructions:
 1. Install GraphQL Codegen and the relevant plugins by doing:
 
 ```
-yarn add -D @graphql-codegen/cli @graphql-codegen/typescript @graphql-codegen/typescript-operations @graphql-codegen/typed-document-node
+yarn add -D @graphql-typed-document-node/core @graphql-codegen/cli @graphql-codegen/typescript @graphql-codegen/typescript-operations @graphql-codegen/typed-document-node
 ```
 
 And if you don't already have a dependency for `graphql`, add it to your project:
