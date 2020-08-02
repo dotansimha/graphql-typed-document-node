@@ -2,16 +2,10 @@
   "name": "graphql-typed-document-node",
   "version": "1.0.0",
   "private": true,
-  "workspaces": {
-    "packages": [
-      "./examples/*",
-      "./packages/*"
-    ],
-    "nohoist": [
-      "apollo-client-example/@apollo/client",
-      "graphql-example/graphql"
-    ]
-  },
+  "workspaces": [
+    "./examples/*",
+    "./packages/*"
+  ],
   "scripts": {
     "release": "node scripts/release.js",
     "lint": "eslint --ext .ts .",
