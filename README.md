@@ -73,7 +73,7 @@ generates:
 ```json
 {
   "scripts": {
-    "postinstall": "graphql-typed-document-node"
+    "postinstall": "patch-typed-document-node"
   }
 }
 ```
