@@ -1968,10 +1968,10 @@ bluebird@^3.5.1:
   resolved "https://registry.npmjs.org/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
 
-bob-the-bundler@1.1.0-alpha.0:
-  version "1.1.0-alpha.0"
-  resolved "https://registry.npmjs.org/bob-the-bundler/-/bob-the-bundler-1.1.0-alpha.0.tgz#2404b696191954b89b383b275db1de0543eb7fbc"
-  integrity sha512-HUcg3gut7r0HaFchnvr1HvoIj/GZVBE513OvsDqFV/k4zq7wa2ILN1/RjYtGekoD88OulJCeT+BiZSANwn0R+w==
+bob-the-bundler@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/bob-the-bundler/-/bob-the-bundler-1.1.0.tgz#fd7cd427f754bf95826055ee356d64a67406387f"
+  integrity sha512-qqstwyxR7YX3Im8jY3vTV4FwnpuRS8AQclZwR9kg3SaWqZnzvEfJKO+JOf3Kbr1/48Zu6O1qPeKmEHesAyR3uw==
   dependencies:
     "@rollup/plugin-node-resolve" "7.1.1"
     consola "2.11.3"
