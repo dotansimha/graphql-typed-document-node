@@ -5,8 +5,7 @@
   "workspaces": {
     "packages": [
       "./examples/*",
-      "./packages/*",
-      "./packages/support/*"
+      "./packages/*"
     ],
     "nohoist": [
       "apollo-client-example/@apollo/client",

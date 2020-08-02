@@ -57,6 +57,7 @@ describe('GraphQL', () => {
     });
   };
 
+  testVersion('14.7.0', false, `ExecutionResult<RatesQuery>`);
   testVersion('15.0.0', false, `ExecutionResult<RatesQuery>`);
   testVersion('15.1.0', false, `ExecutionResult<RatesQuery>`);
   testVersion('15.2.0', true, `ExecutionResult<RatesQuery, { [key: string]: any; }>`);
