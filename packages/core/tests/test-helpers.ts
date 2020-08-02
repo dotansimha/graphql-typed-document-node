@@ -117,6 +117,7 @@ export function prepareTempProject(extraDeps = {}): { dir: string, patch: () => 
 
   writeFileSync(join(projectDirectory.name, './package.json'), JSON.stringify({
     name: "test",
+    license: 'MIT',
     dependencies: {
       '@types/react': 'latest',
       '@types/node': allDeps['@types/node'],

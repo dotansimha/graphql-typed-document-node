@@ -43,6 +43,6 @@ describe('ApolloClient v2', () => {
     });
   };
 
-  testVersion('2.6.0', '1.6.0');
+  testVersion('2.6.10', '1.6.0');
   testVersion('2.6.10', '1.6.6');
 })
