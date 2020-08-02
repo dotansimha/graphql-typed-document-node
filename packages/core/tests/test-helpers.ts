@@ -6,6 +6,11 @@ import { writeFileSync } from 'fs';
 import { dirSync } from 'tmp';
 import { execSync } from 'child_process';
 
+const rootPackageFile = require(join(process.cwd(), './package.json'));
+const allDeps = {
+  ...(rootPackageFile.dependencies || {}),
+  ...(rootPackageFile.devDependencies || {}),
+};
 let cachedCodegenResult: Types.FileOutput[] | null = null;
 
 export async function executeCodegen(): Promise<Types.FileOutput[]> {
@@ -107,18 +112,21 @@ export async function createProgram(baseDir: string, fileContent: string, compil
   }
 }
 
-export function prepareTempProject(extraDeps = {}) {
+export function prepareTempProject(extraDeps = {}): { dir: string, patch: () => void } {
   const projectDirectory = dirSync();
 
   writeFileSync(join(projectDirectory.name, './package.json'), JSON.stringify({
     name: "test",
     dependencies: {
       '@types/react': 'latest',
-      '@types/node': '^14',
-      graphql: 'latest',
+      '@types/node': allDeps['@types/node'],
+      'graphql': allDeps.graphql,
       '@graphql-typed-document-node/core': join(process.cwd(), './packages/core/dist/'),
       ...extraDeps,
     },
+    scripts: {
+      patch: "patch-typed-document-node" 
+    }
   }, null, 2));
 
   execSync('yarn install', {
@@ -126,5 +134,14 @@ export function prepareTempProject(extraDeps = {}) {
     cwd: projectDirectory.name,
   });
 
-  return projectDirectory.name;
+  return {
+    dir: projectDirectory.name,
+    patch: () => {
+      const out = execSync('yarn patch', {
+        cwd: projectDirectory.name,
+      });
+      // eslint-disable-next-line
+      console.log(out.toString());
+    }
+  };
 }

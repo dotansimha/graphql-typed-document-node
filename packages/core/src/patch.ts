@@ -1,47 +1,65 @@
-import { readFileSync, readdirSync } from 'fs';
-import { join, resolve, extname, parse } from 'path';
+import { readdirSync, readFileSync } from 'fs';
+import { join, resolve, extname, basename } from 'path';
 import { satisfies } from 'semver';
 
+// eslint-disable-next-line
+const verbose = (...args: any[]) => process.env.VERBOSE ? console.log(...args) : undefined;
+
+type UnPromisify<T> = T extends Promise<infer U> ? U : T;
+type Patch = UnPromisify<ReturnType<typeof getAvailablePatches>>['availablePatches'][0];
+
 const { applyPatch } = require('patch-package/dist/applyPatches');
-const { getPackageDetailsFromPatchFilename } = require('patch-package/dist/PackageDetails');
 
-export function applyPatchFile(baseDir: string, fileName: string, reverse = false) {
-  const packageDetails = getPackageDetailsFromPatchFilename(fileName);
-
+export function applyPatchFile(baseDir: string, patch: Patch, reverse = false) {
   return applyPatch({
-    patchFilePath: resolve(baseDir, fileName),
+    patchFilePath: resolve(baseDir, patch.fileName),
     patchDir: baseDir,
-    packageDetails,
+    packageDetails: patch.details,
     reverse,
   });
 }
 
 export async function applyPatches(rootDirectory: string, reverse = false): Promise<void> {
   const { availablePatches, baseDir } = await getAvailablePatches();
-  const packageJson = JSON.parse(readFileSync(join(rootDirectory, './package.json'), 'utf-8'));
-  const dependencies = packageJson.dependencies || {};
-  const devDependencies = packageJson.devDependencies || {};
 
   for (const patch of availablePatches) {
-    if (dependencies[patch.packageName] || devDependencies[patch.packageName]) {
-      const dependency = dependencies[patch.packageName] || devDependencies[patch.packageName];
-      const isValidVersion = satisfies(dependency, patch.versionRange);
+    if (patch.details) {
+      const packageResolution = resolvePackage(rootDirectory, patch);
 
-      if (isValidVersion) {
-        const result = applyPatchFile(baseDir, patch.fileName, reverse);
+      if (packageResolution) {
+        const isValidVersion = satisfies(packageResolution, patch.details.version);
 
-        if (result) {
-          // eslint-disable-next-line
-          console.info(`[TypedDocumentNode] Patch for ${patch.packageName}@${dependency} has been ${reverse ? 'reversed' : 'applied'}!`);
+        if (isValidVersion) {
+          const result = applyPatchFile(baseDir, patch, reverse);
+
+          if (result) {
+            // eslint-disable-next-line
+            console.info(`[TypedDocumentNode] Patch for ${patch.details.name}@${packageResolution} has been ${reverse ? 'reversed' : 'applied'}!`);
+          } else {
+            // eslint-disable-next-line
+            console.warn(`[TypedDocumentNode] Something went wrong, unable to patch ${patch.details.name} (Patch: ${patch.details.version}, Installed: ${packageResolution})`);
+          }
         } else {
           // eslint-disable-next-line
-          console.warn(`[TypedDocumentNode] Something went wrong, unable to patch ${patch.packageName} (Patch: ${patch.versionRange}, Installed: ${dependency})`);
+          verbose(`[TypedDocumentNode] Patch for ${patch.details.name} exists, but you have a version mismatch! (Supported: ${patch.details.version}, you have: ${packageResolution})`);
         }
       } else {
-          // eslint-disable-next-line
-          console.warn(`[TypedDocumentNode] Patch for ${patch.packageName} exists, but you have a version mismatch! (Supported: ${patch.versionRange}, you have: ${dependency})`);
+        verbose(`[TypedDocumentNode] Skipping ${patch.fileName} patch, didn't find any package resolution!`)
       }
+    } else {
+      verbose(`[TypedDocumentNode] Unable to extract package details for patch file ${patch.fileName}!`)
     }
+  }
+}
+
+function resolvePackage(rootDirectory: string, patch: Patch): string | null {
+  try {
+    const packagePath = require.resolve(`${patch.details.name}/package.json`, { paths: [rootDirectory] });
+    const packageJson = JSON.parse(readFileSync(packagePath, 'utf-8'));
+    
+    return packageJson.version || null;
+  } catch (e) {
+    return null;
   }
 }
 
@@ -52,22 +70,21 @@ export async function getAvailablePatches() {
   return {
     baseDir,
     availablePatches: files.map(fileName => {
-      const parts = parse(fileName).name.split('+');
-      let packageName = null;
-      let versionRange = null;
-
-      if (parts.length === 2) {
-        packageName = parts[0];
-        versionRange = parts[1];
-      } else if (parts.length === 3) {
-        packageName = `${parts[0]}/${parts[1]}`;
-        versionRange = parts[2];
-      }
+      const cleanName = basename(fileName, extname(fileName));
+      const parts = cleanName.split('+');
+      const versionRange = parts.pop();
+      const name = parts.join('/');
 
       return {
         fileName,
-        packageName,
-        versionRange,
+        details: {
+          // This structure and fields are required internally in `patch-package` code.
+          version: versionRange,
+          name,
+          pathSpecifier: name,
+          humanReadablePathSpecifier: name,
+          packageNames: [name],
+        },
       };
     })
   };
