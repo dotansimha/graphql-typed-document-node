@@ -1,8 +1,8 @@
 ## `graphql-typed-document-node`
 
-> Note: The implementation of this package and the way it's being applied will be changed soon. It won't effect the type signature of `TypedDocumentNode` or the GraphQL-Codegen plugin that used for that purpose. 
-
 This repository is the home for `graphql-typed-document-node` and integration related to it. 
+
+[You can read more, see example and try it out live here](https://the-guild.dev/blog/typed-document-node)
 
 `graphql-typed-document-node` is a development tool for creating fully typed `DocumentNode` objects. It means that just by passing the GraphQL query/mutation/subscription/fragment to a supporting GraphQL client library, you'll get a fully type result object and variables object.
 
@@ -39,13 +39,17 @@ The following patches are currently supported:
 
 To use this library, following these instructions:
 
-1. Install GraphQL Codegen and the relevant plugins by doing:
+1. Install this library, and GraphQL Codegen and the relevant plugins:
 
 ```
 yarn add -D @graphql-typed-document-node/core @graphql-codegen/cli @graphql-codegen/typescript @graphql-codegen/typescript-operations @graphql-codegen/typed-document-node
 ```
 
 And if you don't already have a dependency for `graphql`, add it to your project:
+
+```
+yarn add graphql
+```
 
 > Codegen is needed because we need to precompile `.graphql` files into `DocumentNode`, and burns the types in it to create `TypedDocumentNode` object.
 
