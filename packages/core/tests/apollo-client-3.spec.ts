@@ -74,4 +74,5 @@ describe('ApolloClient v3', () => {
   testVersion('3.0.2');
   testVersion('3.1.0');
   testVersion('3.1.1');
+  testVersion('3.1.2');
 })
