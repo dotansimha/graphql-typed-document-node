@@ -32,6 +32,7 @@ The following patches are currently supported:
 - `react-apollo` (`3.1.5`)
 - `apollo-angular` (`1.10.1`)
 - `urql` (`1.10.0`)
+- `@vue/apollo-composable` (`4.0.0-alpha.10`)
 
 ## How to use?
 
@@ -118,3 +119,6 @@ export function gqlFetch<TData = any, TVariables = Record<string, any>(operation
 ## How to extend other libraries with this? 
 
 You can create patches using [`patch-package`](https://github.com/ds300/patch-package) and change the `.d.ts` files of any package to add support for `TypedDocumentNode`. 
+
+If you think your patch can be helpful for other developers as well, feel free to open a PR in this repo and add it! 
+
