@@ -122,3 +122,8 @@ You can create patches using [`patch-package`](https://github.com/ds300/patch-pa
 
 If you think your patch can be helpful for other developers as well, feel free to open a PR in this repo and add it! 
 
+
+# Thanks & Inspiration
+
+- https://github.com/dotansimha/graphql-code-generator/issues/1777#issue-437813742 for the concept of generating unified clients support
+- https://github.com/Shopify/graphql-tools-web/blob/main/packages/graphql-typed/index.ts for similar idea
