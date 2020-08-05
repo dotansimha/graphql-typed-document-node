@@ -33,7 +33,7 @@ index 992df92..43979af 100644
      writeFragment<TData = any, TVariables = any>(options: DataProxy.WriteFragmentOptions<TData, TVariables>): void;
      writeData<TData = any>(options: DataProxy.WriteDataOptions<TData>): void;
 diff --git a/node_modules/apollo-cache/src/types/DataProxy.ts b/node_modules/apollo-cache/src/types/DataProxy.ts
-index 8b85709..4f2a2f3 100644
+index 8b85709..cc8a1bf 100644
 --- a/node_modules/apollo-cache/src/types/DataProxy.ts
 +++ b/node_modules/apollo-cache/src/types/DataProxy.ts
 @@ -1,13 +1,14 @@
@@ -71,6 +71,24 @@ index 8b85709..4f2a2f3 100644
  
      /**
       * The name of the fragment in your GraphQL document to be used. If you do
+@@ -45,7 +46,7 @@ export namespace DataProxy {
+   }
+ 
+   export interface WriteQueryOptions<TData, TVariables>
+-    extends Query<TVariables> {
++    extends Query<TVariables, TData> {
+     /**
+      * The data you will be writing to the store.
+      */
+@@ -53,7 +54,7 @@ export namespace DataProxy {
+   }
+ 
+   export interface WriteFragmentOptions<TData, TVariables>
+-    extends Fragment<TVariables> {
++    extends Fragment<TVariables, TData> {
+     /**
+      * The data you will be writing to the store.
+      */
 @@ -87,7 +88,7 @@ export interface DataProxy {
     * Reads a GraphQL query from the root query id.
     */
