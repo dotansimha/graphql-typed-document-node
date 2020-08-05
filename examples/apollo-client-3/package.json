@@ -1,7 +1,7 @@
 {
   "name": "apollo-client-example",
   "private": true,
-  "version": "2.0.0",
+  "version": "2.1.0",
   "scripts": {
     "postinstall": "patch-typed-document-node && yarn generate",
     "generate": "graphql-codegen",
@@ -12,8 +12,9 @@
     "@types/node": "14.0.23",
     "graphql": "15.3.0",
     "typescript": "3.9.7",
-    "@apollo/client": "3.1.0",
-    "@graphql-typed-document-node/core": "2.0.0",
+    "@apollo/client": "3.1.2",
+    "@graphql-typed-document-node/core": "2.1.0",
+    "@graphql-typed-document-node/patch-cli": "2.1.0",
     "@graphql-codegen/typed-document-node": "1.17.7",
     "@graphql-codegen/cli": "1.17.7",
     "@graphql-codegen/typescript": "1.17.7",

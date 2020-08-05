@@ -22,9 +22,18 @@ This project works in the following way:
 
 Most libraries supports `DocumentNode` as the type of the query object, but that's not enough to use this library. 
 
+Our goal is to get built-in support in major libraries, in order
+
 In order to extend the behavior, we are using `patch-package` library internally, to add support for `TypedDocumentNode` and add the support for type inference. 
 
 The following patches are currently supported:
+
+## Built-in
+
+- `@apollo/client` (since `v3.2.0`)
+- `apollo-angular` (v2)
+
+## With Patch
 
 - `graphql` (`14.7.0`, `15.0.0`, `15.1.0`, `~15.2.0`)
 - `@apollo/client` (`~3.0.0`, `~3.1.0`)
@@ -69,7 +78,15 @@ generates:
 
 3. Try to run codegen by using: `yarn graphql-codegen`, it should create the `./src/graphql-operations.ts` file for you, with the generated `TypedDocumentNode` objects.
 
-4. Configure the patch CLI to run as `postinstall` script:
+If you are using a library that doesn't support `TypedDocumentNode` yet, you can apply a patch, by doing:
+
+1. Install the patch-cli:
+
+```
+yarn add -D @graphql-typed-document-node/patch-cli
+```
+
+2. Configure the patch CLI to run as `postinstall` script:
 
 ```json
 {
@@ -78,6 +95,8 @@ generates:
   }
 }
 ```
+
+5. Reinstall dependencies (using npm or yarn) - it will now patch the relevant libraries.
 
 Now, after installing your projects' dependencies, it will make sure to patch all relevant packages and make it available for use with `TypedDocumentNode`.
 
