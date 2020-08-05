@@ -32,3 +32,60 @@ index 992df92..43979af 100644
      writeQuery<TData = any, TVariables = any>(options: DataProxy.WriteQueryOptions<TData, TVariables>): void;
      writeFragment<TData = any, TVariables = any>(options: DataProxy.WriteFragmentOptions<TData, TVariables>): void;
      writeData<TData = any>(options: DataProxy.WriteDataOptions<TData>): void;
+diff --git a/node_modules/apollo-cache/src/types/DataProxy.ts b/node_modules/apollo-cache/src/types/DataProxy.ts
+index 8b85709..4f2a2f3 100644
+--- a/node_modules/apollo-cache/src/types/DataProxy.ts
++++ b/node_modules/apollo-cache/src/types/DataProxy.ts
+@@ -1,13 +1,14 @@
+ import { DocumentNode } from 'graphql'; // eslint-disable-line import/no-extraneous-dependencies, import/no-unresolved
++import { TypedDocumentNode } from '@graphql-typed-document-node/core';
+ 
+ export namespace DataProxy {
+-  export interface Query<TVariables> {
++  export interface Query<TVariables, TData = any> {
+     /**
+      * The GraphQL query shape to be used constructed using the `gql` template
+      * string tag from `graphql-tag`. The query will be used to determine the
+      * shape of the data to be read.
+      */
+-    query: DocumentNode;
++    query: DocumentNode | TypedDocumentNode<TData, TVariables>;
+ 
+     /**
+      * Any variables that the GraphQL query may depend on.
+@@ -15,7 +16,7 @@ export namespace DataProxy {
+     variables?: TVariables;
+   }
+ 
+-  export interface Fragment<TVariables> {
++  export interface Fragment<TVariables, TData = any> {
+     /**
+      * The root id to be used. This id should take the same form as the
+      * value returned by your `dataIdFromObject` function. If a value with your
+@@ -29,7 +30,7 @@ export namespace DataProxy {
+      * the shape of data to read. If you provide more than one fragment in this
+      * document then you must also specify `fragmentName` to select a single.
+      */
+-    fragment: DocumentNode;
++    fragment: DocumentNode | TypedDocumentNode<TData, TVariables>;
+ 
+     /**
+      * The name of the fragment in your GraphQL document to be used. If you do
+@@ -87,7 +88,7 @@ export interface DataProxy {
+    * Reads a GraphQL query from the root query id.
+    */
+   readQuery<QueryType, TVariables = any>(
+-    options: DataProxy.Query<TVariables>,
++    options: DataProxy.Query<TVariables, QueryType>,
+     optimistic?: boolean,
+   ): QueryType | null;
+ 
+@@ -97,7 +98,7 @@ export interface DataProxy {
+    * provided to select the correct fragment.
+    */
+   readFragment<FragmentType, TVariables = any>(
+-    options: DataProxy.Fragment<TVariables>,
++    options: DataProxy.Fragment<TVariables, FragmentType>,
+     optimistic?: boolean,
+   ): FragmentType | null;
+ 
