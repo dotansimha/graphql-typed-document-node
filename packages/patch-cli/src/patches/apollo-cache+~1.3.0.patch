@@ -1,8 +1,8 @@
 diff --git a/node_modules/apollo-cache/lib/types/DataProxy.d.ts b/node_modules/apollo-cache/lib/types/DataProxy.d.ts
-index 992df92..43979af 100644
+index 992df92..d3ff21a 100644
 --- a/node_modules/apollo-cache/lib/types/DataProxy.d.ts
 +++ b/node_modules/apollo-cache/lib/types/DataProxy.d.ts
-@@ -1,12 +1,14 @@
+@@ -1,19 +1,21 @@
  import { DocumentNode } from 'graphql';
 +import { TypedDocumentNode } from '@graphql-typed-document-node/core';
 +
@@ -21,6 +21,15 @@ index 992df92..43979af 100644
          fragmentName?: string;
          variables?: TVariables;
      }
+-    interface WriteQueryOptions<TData, TVariables> extends Query<TVariables> {
++    interface WriteQueryOptions<TData, TVariables> extends Query<TVariables, TData> {
+         data: TData;
+     }
+-    interface WriteFragmentOptions<TData, TVariables> extends Fragment<TVariables> {
++    interface WriteFragmentOptions<TData, TVariables> extends Fragment<TVariables, TData> {
+         data: TData;
+     }
+     interface WriteDataOptions<TData> {
 @@ -26,8 +28,8 @@ export declare namespace DataProxy {
      };
  }
