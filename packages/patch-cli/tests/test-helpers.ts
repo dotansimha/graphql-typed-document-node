@@ -123,6 +123,7 @@ export function prepareTempProject(extraDeps = {}): { dir: string, patch: () => 
       '@types/node': allDeps['@types/node'],
       'graphql': allDeps.graphql,
       '@graphql-typed-document-node/core': join(process.cwd(), './packages/core/dist/'),
+      '@graphql-typed-document-node/patch-cli': join(process.cwd(), './packages/patch-cli/dist/'),
       ...extraDeps,
     },
     scripts: {
