@@ -1,7 +1,7 @@
 import { createProgram, prepareTempProject } from './test-helpers';
 import ts from 'typescript';
 
-describe('@vue/apollo-composable', () => {
+describe.skip('@vue/apollo-composable', () => {
   const testVersion = (version: string, compositionApiVersion: string) => {
     describe(`@vue/apollo-composable@${version}`, () => {
       let projectDirectory: ReturnType<typeof prepareTempProject>;
