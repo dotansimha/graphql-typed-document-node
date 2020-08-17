@@ -925,10 +925,10 @@
   resolved "https://registry.npmjs.org/@graphql-typed-document-node/core/-/core-3.1.0.tgz#0eee6373e11418bfe0b5638f654df7a4ca6a3950"
   integrity sha512-wYn6r8zVZyQJ6rQaALBEln5B1pzxb9shV5Ef97kTvn6yVGrqyXVnDqnU24MXnFubR+rZjBY9NWuxX3FB2sTsjg==
 
-"@graphql-typed-document-node/patch-cli@^3.0.3":
-  version "3.0.3"
-  resolved "https://registry.npmjs.org/@graphql-typed-document-node/patch-cli/-/patch-cli-3.0.3.tgz#e18f4861f2f5a43717af164ffe506880bd0fd333"
-  integrity sha512-8kGMaobPES2H23nC8o7vhr8Y2PPLDaX239J5RGOMvg2uRkjYQ1rTQCfmLsJOsHjDWlz913RoTlryFE5eR+lLTw==
+"@graphql-typed-document-node/patch-cli@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.npmjs.org/@graphql-typed-document-node/patch-cli/-/patch-cli-3.0.4.tgz#9678f380006a858aa4b5423c8e720da44f2adf53"
+  integrity sha512-7f0olPBvcSqO3ms2Cx56isETDNd3c+j8owFK+p5VA2jsWIvQEtpfoqx7pHjUEh3yH6E7WjM89T43em7JRNXHKw==
   dependencies:
     patch-package "6.2.2"
     semver "7.3.2"

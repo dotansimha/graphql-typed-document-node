@@ -1,3 +1,75 @@
+diff --git a/node_modules/@apollo/react-components/lib/Mutation.d.ts b/node_modules/@apollo/react-components/lib/Mutation.d.ts
+index fe10391..bdbda63 100644
+--- a/node_modules/@apollo/react-components/lib/Mutation.d.ts
++++ b/node_modules/@apollo/react-components/lib/Mutation.d.ts
+@@ -1,19 +1,4 @@
+ /// <reference types="react" />
+ import { OperationVariables } from '@apollo/react-common';
+-import PropTypes from 'prop-types';
+ import { MutationComponentOptions } from './types';
+ export declare function Mutation<TData = any, TVariables = OperationVariables>(props: MutationComponentOptions<TData, TVariables>): JSX.Element | null;
+-export declare namespace Mutation {
+-    const propTypes: {
+-        mutation: PropTypes.Validator<object>;
+-        variables: PropTypes.Requireable<object>;
+-        optimisticResponse: PropTypes.Requireable<object>;
+-        refetchQueries: PropTypes.Requireable<((...args: any[]) => any) | (string | object | null | undefined)[]>;
+-        awaitRefetchQueries: PropTypes.Requireable<boolean>;
+-        update: PropTypes.Requireable<(...args: any[]) => any>;
+-        children: PropTypes.Validator<(...args: any[]) => any>;
+-        onCompleted: PropTypes.Requireable<(...args: any[]) => any>;
+-        onError: PropTypes.Requireable<(...args: any[]) => any>;
+-        fetchPolicy: PropTypes.Requireable<string>;
+-    };
+-}
+diff --git a/node_modules/@apollo/react-components/lib/Query.d.ts b/node_modules/@apollo/react-components/lib/Query.d.ts
+index da129ed..de30044 100644
+--- a/node_modules/@apollo/react-components/lib/Query.d.ts
++++ b/node_modules/@apollo/react-components/lib/Query.d.ts
+@@ -1,21 +1,5 @@
+ /// <reference types="react" />
+ import { OperationVariables } from '@apollo/react-common';
+-import PropTypes from 'prop-types';
+ import { QueryComponentOptions } from './types';
+ export declare function Query<TData = any, TVariables = OperationVariables>(props: QueryComponentOptions<TData, TVariables>): JSX.Element | null;
+-export declare namespace Query {
+-    const propTypes: {
+-        client: PropTypes.Requireable<object>;
+-        children: PropTypes.Validator<(...args: any[]) => any>;
+-        fetchPolicy: PropTypes.Requireable<string>;
+-        notifyOnNetworkStatusChange: PropTypes.Requireable<boolean>;
+-        onCompleted: PropTypes.Requireable<(...args: any[]) => any>;
+-        onError: PropTypes.Requireable<(...args: any[]) => any>;
+-        pollInterval: PropTypes.Requireable<number>;
+-        query: PropTypes.Validator<object>;
+-        variables: PropTypes.Requireable<object>;
+-        ssr: PropTypes.Requireable<boolean>;
+-        partialRefetch: PropTypes.Requireable<boolean>;
+-        returnPartialData: PropTypes.Requireable<boolean>;
+-    };
+-}
++
+diff --git a/node_modules/@apollo/react-components/lib/Subscription.d.ts b/node_modules/@apollo/react-components/lib/Subscription.d.ts
+index b63d3d2..e320783 100644
+--- a/node_modules/@apollo/react-components/lib/Subscription.d.ts
++++ b/node_modules/@apollo/react-components/lib/Subscription.d.ts
+@@ -1,15 +1,4 @@
+ /// <reference types="react" />
+ import { OperationVariables } from '@apollo/react-common';
+-import PropTypes from 'prop-types';
+ import { SubscriptionComponentOptions } from './types';
+ export declare function Subscription<TData = any, TVariables = OperationVariables>(props: SubscriptionComponentOptions<TData, TVariables>): JSX.Element | null;
+\ No newline at end of file
+-export declare namespace Subscription {
+-    const propTypes: {
+-        subscription: PropTypes.Validator<object>;
+-        variables: PropTypes.Requireable<object>;
+-        children: PropTypes.Requireable<(...args: any[]) => any>;
+-        onSubscriptionData: PropTypes.Requireable<(...args: any[]) => any>;
+-        onSubscriptionComplete: PropTypes.Requireable<(...args: any[]) => any>;
+-        shouldResubscribe: PropTypes.Requireable<boolean | ((...args: any[]) => any)>;
+-    };
+-}
 diff --git a/node_modules/@apollo/react-components/lib/types.d.ts b/node_modules/@apollo/react-components/lib/types.d.ts
 index 0c82d57..d9ceb13 100644
 --- a/node_modules/@apollo/react-components/lib/types.d.ts
