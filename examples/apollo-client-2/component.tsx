@@ -6,10 +6,10 @@ import { Query } from 'react-apollo';
 const MyComponent: React.FC = () => {
   return (
     <div>
-      <Query query={RatesDocument}>
+      <Query query={RatesDocument} variables={{ currency: 'ILS' }}>
         {
           ({ data }) => {
-            return data?.rates[0].rate;
+            return <span>{data?.rates[0].rate}</span>;
           }
         }
       </Query>
