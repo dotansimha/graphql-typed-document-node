@@ -5,16 +5,16 @@ import { readFileSync } from 'fs';
 const schema = buildSchema(readFileSync('./schema.graphql', 'utf-8'));
 
 async function main(): Promise<void> {
-  // We are using the regular `execute` from `graphql` library, and we loaded an overloading
-  // module using `tsconfig.json` => compilerOptions.types. This makes sure to add support for 
-  // the new TypedDocumentNode.
+  // We are using the regular `execute` from `graphql` library, but with patch applied.
   const result = await execute({
-    document: RatesDocument, // This is the TypedDocumentNode containting the result type
+    document: RatesDocument, // This is the TypedDocumentNode containting the result type and variables type
     schema,
     variableValues: {
       currency: 'USD'
     }
   });
+
+  result.data.rates
 
   // We now have types support and auto complete for the
   // result type, just by passing `RatesDocument` as `document` to execute function.

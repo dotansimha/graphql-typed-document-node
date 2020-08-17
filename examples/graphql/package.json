@@ -9,14 +9,14 @@
     "compile": "tsc"
   },
   "dependencies": {
-    "@types/node": "14.0.23",
+    "@types/node": "14.0.27",
     "graphql": "15.3.0",
     "typescript": "3.9.7",
-    "@graphql-typed-document-node/core": "3.0.0",
-    "@graphql-typed-document-node/patch-cli": "3.0.0",
-    "@graphql-codegen/typed-document-node": "1.17.7",
-    "@graphql-codegen/cli": "1.17.7",
-    "@graphql-codegen/typescript": "1.17.7",
-    "@graphql-codegen/typescript-operations": "1.17.7"
+    "@graphql-typed-document-node/core": "^3.1.0",
+    "@graphql-typed-document-node/patch-cli": "^3.0.3",
+    "@graphql-codegen/typed-document-node": "1.17.9",
+    "@graphql-codegen/cli": "1.17.8",
+    "@graphql-codegen/typescript": "1.17.8",
+    "@graphql-codegen/typescript-operations": "1.17.8"
   }
 }

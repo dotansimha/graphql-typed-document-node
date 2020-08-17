@@ -100,6 +100,14 @@ yarn add -D @graphql-typed-document-node/patch-cli
 
 Now, after installing your projects' dependencies, it will make sure to patch all relevant packages and make it available for use with `TypedDocumentNode`.
 
+## Utils
+
+The `core` package of typed-document-node exports 3 types only:
+
+* `TypedDocumentNode` - the base of this library.
+* `ResultOf` - a utils for extracting the result type from an existing `TypeDocumentNode` instance (`ResultOf<typeof MyQueryDocument>`)
+* `VariablesOf` - a utils for extracting the variables type from an existing `TypeDocumentNode` instance (`VariablesOf<typeof MyQueryDocument>`)
+
 ## How can I support this in my library?
 
 If you are a library maintainer, and you wish to have built-in TS support in your library, you can add support for `TypedDocumentNode` without having any breaking changes to your API.
