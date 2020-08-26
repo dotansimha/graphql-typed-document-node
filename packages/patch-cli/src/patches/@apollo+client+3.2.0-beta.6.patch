@@ -1,0 +1,76 @@
+diff --git a/node_modules/@apollo/client/react/components/Mutation.d.ts b/node_modules/@apollo/client/react/components/Mutation.d.ts
+index 96babab..bf1dd98 100644
+--- a/node_modules/@apollo/client/react/components/Mutation.d.ts
++++ b/node_modules/@apollo/client/react/components/Mutation.d.ts
+@@ -1,20 +1,5 @@
+ /// <reference types="react" />
+-import PropTypes from 'prop-types';
+ import { OperationVariables } from '../../core';
+ import { MutationComponentOptions } from './types';
+ export declare function Mutation<TData = any, TVariables = OperationVariables>(props: MutationComponentOptions<TData, TVariables>): JSX.Element | null;
+-export declare namespace Mutation {
+-    const propTypes: {
+-        mutation: PropTypes.Validator<object>;
+-        variables: PropTypes.Requireable<object>;
+-        optimisticResponse: PropTypes.Requireable<object>;
+-        refetchQueries: PropTypes.Requireable<((...args: any[]) => any) | (string | object | null | undefined)[]>;
+-        awaitRefetchQueries: PropTypes.Requireable<boolean>;
+-        update: PropTypes.Requireable<(...args: any[]) => any>;
+-        children: PropTypes.Validator<(...args: any[]) => any>;
+-        onCompleted: PropTypes.Requireable<(...args: any[]) => any>;
+-        onError: PropTypes.Requireable<(...args: any[]) => any>;
+-        fetchPolicy: PropTypes.Requireable<string>;
+-    };
+-}
+ //# sourceMappingURL=Mutation.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/@apollo/client/react/components/Query.d.ts b/node_modules/@apollo/client/react/components/Query.d.ts
+index b3c8e37..64f5602 100644
+--- a/node_modules/@apollo/client/react/components/Query.d.ts
++++ b/node_modules/@apollo/client/react/components/Query.d.ts
+@@ -1,22 +1,5 @@
+ /// <reference types="react" />
+-import PropTypes from 'prop-types';
+ import { OperationVariables } from '../../core';
+ import { QueryComponentOptions } from './types';
+ export declare function Query<TData = any, TVariables = OperationVariables>(props: QueryComponentOptions<TData, TVariables>): JSX.Element | null;
+-export declare namespace Query {
+-    const propTypes: {
+-        client: PropTypes.Requireable<object>;
+-        children: PropTypes.Validator<(...args: any[]) => any>;
+-        fetchPolicy: PropTypes.Requireable<string>;
+-        notifyOnNetworkStatusChange: PropTypes.Requireable<boolean>;
+-        onCompleted: PropTypes.Requireable<(...args: any[]) => any>;
+-        onError: PropTypes.Requireable<(...args: any[]) => any>;
+-        pollInterval: PropTypes.Requireable<number>;
+-        query: PropTypes.Validator<object>;
+-        variables: PropTypes.Requireable<object>;
+-        ssr: PropTypes.Requireable<boolean>;
+-        partialRefetch: PropTypes.Requireable<boolean>;
+-        returnPartialData: PropTypes.Requireable<boolean>;
+-    };
+-}
+ //# sourceMappingURL=Query.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/@apollo/client/react/components/Subscription.d.ts b/node_modules/@apollo/client/react/components/Subscription.d.ts
+index be5036c..4ec526b 100644
+--- a/node_modules/@apollo/client/react/components/Subscription.d.ts
++++ b/node_modules/@apollo/client/react/components/Subscription.d.ts
+@@ -1,16 +1,5 @@
+ /// <reference types="react" />
+-import PropTypes from 'prop-types';
+ import { OperationVariables } from '../../core';
+ import { SubscriptionComponentOptions } from './types';
+ export declare function Subscription<TData = any, TVariables = OperationVariables>(props: SubscriptionComponentOptions<TData, TVariables>): JSX.Element | null;
+-export declare namespace Subscription {
+-    const propTypes: {
+-        subscription: PropTypes.Validator<object>;
+-        variables: PropTypes.Requireable<object>;
+-        children: PropTypes.Requireable<(...args: any[]) => any>;
+-        onSubscriptionData: PropTypes.Requireable<(...args: any[]) => any>;
+-        onSubscriptionComplete: PropTypes.Requireable<(...args: any[]) => any>;
+-        shouldResubscribe: PropTypes.Requireable<boolean | ((...args: any[]) => any)>;
+-    };
+-}
+ //# sourceMappingURL=Subscription.d.ts.map
+\ No newline at end of file
