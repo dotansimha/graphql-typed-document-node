@@ -1,6 +1,6 @@
 {
   "name": "@graphql-typed-document-node/patch-cli",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "repository": "git@github.com:dotansimha/graphql-typed-document-node.git",
   "author": "Dotan Simha <dotansimha@gmail.com>",
   "license": "MIT",
