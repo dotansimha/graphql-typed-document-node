@@ -1,0 +1,56 @@
+diff --git a/node_modules/@apollo/client/react/components/Query.d.ts b/node_modules/@apollo/client/react/components/Query.d.ts
+index 2d577ec..64f5602 100644
+--- a/node_modules/@apollo/client/react/components/Query.d.ts
++++ b/node_modules/@apollo/client/react/components/Query.d.ts
+@@ -1,25 +1,5 @@
+ /// <reference types="react" />
+-import PropTypes from 'prop-types';
+ import { OperationVariables } from '../../core';
+ import { QueryComponentOptions } from './types';
+ export declare function Query<TData = any, TVariables = OperationVariables>(props: QueryComponentOptions<TData, TVariables>): JSX.Element | null;
+-export declare namespace Query {
+-    var propTypes: {
+-        client: PropTypes.Requireable<object>;
+-        children: PropTypes.Validator<(...args: any[]) => any>;
+-        fetchPolicy: PropTypes.Requireable<string>;
+-        notifyOnNetworkStatusChange: PropTypes.Requireable<boolean>;
+-        onCompleted: PropTypes.Requireable<(...args: any[]) => any>;
+-        onError: PropTypes.Requireable<(...args: any[]) => any>;
+-        pollInterval: PropTypes.Requireable<number>;
+-        query: PropTypes.Validator<object>;
+-        variables: PropTypes.Requireable<object>;
+-        ssr: PropTypes.Requireable<boolean>;
+-        partialRefetch: PropTypes.Requireable<boolean>;
+-        returnPartialData: PropTypes.Requireable<boolean>;
+-    };
+-}
+-export interface Query<TData, TVariables> {
+-    propTypes: PropTypes.InferProps<QueryComponentOptions<TData, TVariables>>;
+-}
+ //# sourceMappingURL=Query.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/@apollo/client/react/components/Subscription.d.ts b/node_modules/@apollo/client/react/components/Subscription.d.ts
+index c99e467..4ec526b 100644
+--- a/node_modules/@apollo/client/react/components/Subscription.d.ts
++++ b/node_modules/@apollo/client/react/components/Subscription.d.ts
+@@ -1,19 +1,5 @@
+ /// <reference types="react" />
+-import PropTypes from 'prop-types';
+ import { OperationVariables } from '../../core';
+ import { SubscriptionComponentOptions } from './types';
+ export declare function Subscription<TData = any, TVariables = OperationVariables>(props: SubscriptionComponentOptions<TData, TVariables>): JSX.Element | null;
+-export declare namespace Subscription {
+-    var propTypes: {
+-        subscription: PropTypes.Validator<object>;
+-        variables: PropTypes.Requireable<object>;
+-        children: PropTypes.Requireable<(...args: any[]) => any>;
+-        onSubscriptionData: PropTypes.Requireable<(...args: any[]) => any>;
+-        onSubscriptionComplete: PropTypes.Requireable<(...args: any[]) => any>;
+-        shouldResubscribe: PropTypes.Requireable<boolean | ((...args: any[]) => any)>;
+-    };
+-}
+-export interface Subscription<TData, TVariables> {
+-    propTypes: PropTypes.InferProps<SubscriptionComponentOptions<TData, TVariables>>;
+-}
+ //# sourceMappingURL=Subscription.d.ts.map
+\ No newline at end of file
