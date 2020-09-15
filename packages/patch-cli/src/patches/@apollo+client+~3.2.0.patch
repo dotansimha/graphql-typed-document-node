@@ -1,3 +1,32 @@
+diff --git a/node_modules/@apollo/client/react/components/Mutation.d.ts b/node_modules/@apollo/client/react/components/Mutation.d.ts
+index 9351417..bf1dd98 100644
+--- a/node_modules/@apollo/client/react/components/Mutation.d.ts
++++ b/node_modules/@apollo/client/react/components/Mutation.d.ts
+@@ -1,23 +1,5 @@
+ /// <reference types="react" />
+-import PropTypes from 'prop-types';
+ import { OperationVariables } from '../../core';
+ import { MutationComponentOptions } from './types';
+ export declare function Mutation<TData = any, TVariables = OperationVariables>(props: MutationComponentOptions<TData, TVariables>): JSX.Element | null;
+-export declare namespace Mutation {
+-    var propTypes: {
+-        mutation: PropTypes.Validator<object>;
+-        variables: PropTypes.Requireable<object>;
+-        optimisticResponse: PropTypes.Requireable<object>;
+-        refetchQueries: PropTypes.Requireable<((...args: any[]) => any) | (string | object | null | undefined)[]>;
+-        awaitRefetchQueries: PropTypes.Requireable<boolean>;
+-        update: PropTypes.Requireable<(...args: any[]) => any>;
+-        children: PropTypes.Validator<(...args: any[]) => any>;
+-        onCompleted: PropTypes.Requireable<(...args: any[]) => any>;
+-        onError: PropTypes.Requireable<(...args: any[]) => any>;
+-        fetchPolicy: PropTypes.Requireable<string>;
+-    };
+-}
+-export interface Mutation<TData, TVariables> {
+-    propTypes: PropTypes.InferProps<MutationComponentOptions<TData, TVariables>>;
+-}
+ //# sourceMappingURL=Mutation.d.ts.map
+\ No newline at end of file
 diff --git a/node_modules/@apollo/client/react/components/Query.d.ts b/node_modules/@apollo/client/react/components/Query.d.ts
 index 2d577ec..64f5602 100644
 --- a/node_modules/@apollo/client/react/components/Query.d.ts
