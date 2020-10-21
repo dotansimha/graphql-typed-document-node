@@ -28,10 +28,14 @@ In order to extend the behavior, we are using `patch-package` library internally
 
 The following patches are currently supported:
 
-## Built-in
+## Built-in support
 
-- `@apollo/client` (since `v3.2.0`)
+- `@apollo/client` (since `v3.2.0`, if you are using React Components (`<Query>`) you **still need a patch**)
+- `villus` (since `1.0.0-beta.8`)
+
+## Upcoming built-in support
 - `apollo-angular` (v2)
+- `graphql-js` (v16)
 
 ## With Patch
 
