@@ -31,7 +31,13 @@ The following patches are currently supported:
 ## Built-in support
 
 - `@apollo/client` (since `v3.2.0`, if you are using React Components (`<Query>`) you **still need a patch**)
+- `@urql/core` (since `1.15.0`)
+- `@urql/preact` (since `@1.4.0`)
+- `urql` (since `1.11.0`)
+- `@urql/exchange-graphcache` (since `3.1.11`)
+- `@urql/svelte` (since `1.1.3`)
 - `villus` (since `1.0.0-beta.8`)
+- `graphql-js` (since `15.2.0`)
 
 ## Upcoming built-in support
 - `apollo-angular` (v2)
@@ -44,7 +50,6 @@ The following patches are currently supported:
 - `apollo-client` (`~2.6.10`, including `apollo-cache`)
 - `react-apollo` (`3.1.5`)
 - `apollo-angular` (`1.10.1`)
-- `urql` (`1.10.0`)
 - `@vue/apollo-composable` (`4.0.0-alpha.10`)
 
 ## How to use?
