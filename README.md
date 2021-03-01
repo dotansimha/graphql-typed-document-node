@@ -146,8 +146,8 @@ type GqlFetchResult<TData = any> = {
   errors?: Error[];
 }
 
-export function gqlFetch<TData = any, TVariables = Record<string, any>(operation: TypedDocumentNode<TData, TVariables>, variables?: TVariables): GqlFetchResult<TData>;
-export function gqlFetch<TData = any, TVariables = Record<string, any>(operation: DocumentNode, variables?: TVariables): GqlFetchResult<TData> {
+export function gqlFetch<TData = any, TVariables = Record<string, any>>(operation: TypedDocumentNode<TData, TVariables>, variables?: TVariables): GqlFetchResult<TData>;
+export function gqlFetch<TData = any, TVariables = Record<string, any>>(operation: DocumentNode, variables?: TVariables): GqlFetchResult<TData> {
   // ...
 }
 ```
