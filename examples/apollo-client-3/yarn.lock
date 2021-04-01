@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@apollo/client@3.2.0-beta.6":
-  version "3.2.0-beta.6"
-  resolved "https://registry.npmjs.org/@apollo/client/-/client-3.2.0-beta.6.tgz#ce8bf0b95814d552bc0d4502ba6e777673e1fb2a"
-  integrity sha512-aXEqt8hGvWA2quglPR0n+f2lkbYmUUc8zcvpfitKCjTUJN1+XVQw6DiK7fqQyCPbu11RwRjVejBu8DReJzlUXw==
+"@apollo/client@3.2.0-beta.9":
+  version "3.2.0-beta.9"
+  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.2.0-beta.9.tgz#8a7bc3f196027b7c2cffd4a17cd0ab61b8af411b"
+  integrity sha512-pSQEc0JJQG55kNfQIbpAHGjtDtWlfNaoweNuj1eLbIKvuwcwgtygtcQyV7bBwrCOt3VjuCfmsGymeC6pRCWs2g==
   dependencies:
     "@graphql-typed-document-node/core" "^3.0.0"
     "@types/zen-observable" "^0.8.0"
@@ -906,10 +906,10 @@
   resolved "https://registry.npmjs.org/@graphql-typed-document-node/core/-/core-3.1.0.tgz#0eee6373e11418bfe0b5638f654df7a4ca6a3950"
   integrity sha512-wYn6r8zVZyQJ6rQaALBEln5B1pzxb9shV5Ef97kTvn6yVGrqyXVnDqnU24MXnFubR+rZjBY9NWuxX3FB2sTsjg==
 
-"@graphql-typed-document-node/patch-cli@^3.0.5":
-  version "3.0.5"
-  resolved "https://registry.npmjs.org/@graphql-typed-document-node/patch-cli/-/patch-cli-3.0.5.tgz#31aa0ce5a75c8b5ab84ae57f790b566ea1f0120f"
-  integrity sha512-9UXOl0EB7ZrOIqCKfu7yr2ePqL7s6NXysEedazeOmNTARksBRuUBxNfm+hCr+Ic0Xo/AzB0vo5gktUBJV/NpeQ==
+"@graphql-typed-document-node/patch-cli@^3.0.6":
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/patch-cli/-/patch-cli-3.0.8.tgz#55755f430e2fedb9db2bd717dd914c71f86eb852"
+  integrity sha512-/xWfTmVYatv8UCGdV1by6dzISsbNeprMV4Gki9c1iWa+jyny30bojRiTebzmhljKUXnygjdqb89WcWLjOardjQ==
   dependencies:
     patch-package "6.2.2"
     semver "7.3.2"
@@ -4251,9 +4251,9 @@ ws@^5.2.0:
     async-limiter "~1.0.0"
 
 y18n@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/y18n/-/y18n-4.0.0.tgz#95ef94f85ecc81d007c264e190a120f0a3c8566b"
-  integrity sha512-r9S/ZyXu/Xu9q1tYlpsLIsa3EeLXXk0VwlxqTcFRfg9EhMW+17kbt9G0NrgCmhGb5vT2hyhJZLfDGx+7+5Uj/w==
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/y18n/-/y18n-4.0.1.tgz#8db2b83c31c5d75099bb890b23f3094891e247d4"
+  integrity sha512-wNcy4NvjMYL8gogWWYAO7ZFWFfHcbdbE57tZO8e4cbpj8tfUcwrwqSl3ad8HxpYWCdXcJUCeKKZS62Av1affwQ==
 
 yaeti@^0.0.6:
   version "0.0.6"
