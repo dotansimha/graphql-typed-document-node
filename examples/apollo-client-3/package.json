@@ -3,10 +3,8 @@
   "private": true,
   "version": "3.0.0",
   "scripts": {
-    "postinstall": "yarn generate",
     "generate": "graphql-codegen --watch",
-    "precompile": "yarn generate",
-    "compile": "tsc"
+    "start": "yarn generate"
   },
   "dependencies": {
     "@apollo/client": "3.3.19",
