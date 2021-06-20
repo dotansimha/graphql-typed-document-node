@@ -30,9 +30,10 @@ The following patches are currently supported:
 
 ## Built-in support
 
-- `@apollo/client` (since `v3.2.0`, if you are using React Components (`<Query>`) you **still need a patch**)
+- `@apollo/client` (since `3.2.0`, if you are using React Components (`<Query>`) you **still need a patch**)
+- `apollo-angular` (since `2.6.0`)
 - `@urql/core` (since `1.15.0`)
-- `@urql/preact` (since `@1.4.0`)
+- `@urql/preact` (since `1.4.0`)
 - `urql` (since `1.11.0`)
 - `@urql/exchange-graphcache` (since `3.1.11`)
 - `@urql/svelte` (since `1.1.3`)
@@ -40,7 +41,6 @@ The following patches are currently supported:
 - `graphql-js` (since `15.2.0`)
 
 ## Upcoming built-in support
-- `apollo-angular` (v2)
 - `graphql-js` (v16)
 
 ## With Patch
