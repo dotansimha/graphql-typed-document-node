@@ -50,7 +50,7 @@ The following patches are currently supported:
 - `apollo-client` (`~2.6.10`, including `apollo-cache`)
 - `react-apollo` (`3.1.5`)
 - `apollo-angular` (`1.10.1`)
-- `@vue/apollo-composable` (`4.0.0-alpha.10`)
+- `@vue/apollo-composable` (`4.0.0-alpha.13`)
 
 ## How to use?
 
