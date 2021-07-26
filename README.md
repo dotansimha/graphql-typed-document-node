@@ -39,6 +39,7 @@ The following patches are currently supported:
 - `@urql/svelte` (since `1.1.3`)
 - `villus` (since `1.0.0-beta.8`)
 - `graphql-js` (since `15.2.0`)
+- `@vue/apollo-composable` (since `4.0.0-alpha.13`)
 
 ## Upcoming built-in support
 - `graphql-js` (v16)
@@ -50,7 +51,6 @@ The following patches are currently supported:
 - `apollo-client` (`~2.6.10`, including `apollo-cache`)
 - `react-apollo` (`3.1.5`)
 - `apollo-angular` (`1.10.1`)
-- `@vue/apollo-composable` (`4.0.0-alpha.10`)
 
 ## How to use?
 
