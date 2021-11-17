@@ -19,7 +19,7 @@
     "prepack": "bob prepack"
   },
   "dependencies": {
-    "patch-package": "6.2.2",
+    "patch-package": "6.4.7",
     "semver": "7.3.5"
   },
   "devDependencies": {
