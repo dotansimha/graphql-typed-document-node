@@ -1,6 +1,6 @@
 {
   "name": "@graphql-typed-document-node/patch-cli",
-  "version": "3.0.8",
+  "version": "3.0.9",
   "repository": "git@github.com:dotansimha/graphql-typed-document-node.git",
   "author": "Dotan Simha <dotansimha@gmail.com>",
   "license": "MIT",
@@ -23,19 +23,19 @@
     "semver": "7.3.5"
   },
   "devDependencies": {
-    "bob-the-bundler": "1.1.0",
+    "bob-the-bundler": "1.5.1",
     "@types/tmp": "0.2.2",
     "tmp": "0.2.1",
     "@types/semver": "7.3.9",
-    "@graphql-codegen/typed-document-node": "1.18.9",
-    "@graphql-codegen/cli": "1.21.6",
-    "@graphql-codegen/typescript": "1.22.4",
-    "@graphql-codegen/typescript-operations": "1.18.3",
-    "graphql": "15.6.0",
-    "typescript": "3.9.7"
+    "@graphql-codegen/typed-document-node": "2.2.0",
+    "@graphql-codegen/cli": "2.3.0",
+    "@graphql-codegen/typescript": "2.4.0",
+    "@graphql-codegen/typescript-operations": "2.2.0",
+    "graphql": "16.0.1",
+    "typescript": "4.4.4"
   },
   "peerDependencies": {
-    "graphql": "^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0"
+    "graphql": "^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0"
   },
   "buildOptions": {
     "copy": [
