@@ -20,13 +20,13 @@
   },
   "dependencies": {
     "patch-package": "6.2.2",
-    "semver": "7.3.2"
+    "semver": "7.3.5"
   },
   "devDependencies": {
     "bob-the-bundler": "1.1.0",
     "@types/tmp": "0.2.2",
     "tmp": "0.2.1",
-    "@types/semver": "7.3.1",
+    "@types/semver": "7.3.9",
     "@graphql-codegen/typed-document-node": "1.18.9",
     "@graphql-codegen/cli": "1.21.6",
     "@graphql-codegen/typescript": "1.22.4",
