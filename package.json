@@ -15,7 +15,7 @@
   "devDependencies": {
     "semver": "7.3.5",
     "yargs": "15.4.1",
-    "globby": "11.0.1",
+    "globby": "11.1.0",
     "fs-extra": "9.1.0",
     "@types/jest": "26.0.8",
     "@typescript-eslint/eslint-plugin": "3.10.1",
