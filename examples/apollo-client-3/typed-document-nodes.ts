@@ -1,5 +1,6 @@
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -15,8 +16,8 @@ export type Scalars = {
 export type ExchangeRate = {
   __typename?: 'ExchangeRate';
   currency?: Maybe<Scalars['String']>;
-  rate?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  rate?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -34,13 +35,7 @@ export type RatesQueryVariables = Exact<{
 }>;
 
 
-export type RatesQuery = (
-  { __typename?: 'Query' }
-  & { rates?: Maybe<Array<Maybe<(
-    { __typename?: 'ExchangeRate' }
-    & Pick<ExchangeRate, 'currency' | 'rate'>
-  )>>> }
-);
+export type RatesQuery = { __typename?: 'Query', rates?: Array<{ __typename?: 'ExchangeRate', currency?: string | null | undefined, rate?: string | null | undefined } | null | undefined> | null | undefined };
 
 
 export const RatesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"rates"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"currency"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rates"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"currency"},"value":{"kind":"Variable","name":{"kind":"Name","value":"currency"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"rate"}}]}}]}}]} as unknown as DocumentNode<RatesQuery, RatesQueryVariables>;
