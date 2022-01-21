@@ -1,0 +1,1 @@
+export const OUT_OF_SCOPE = 'this constant is out of scope of react folder, allowed to be import by using react-app-rewired'
