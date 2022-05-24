@@ -21,6 +21,6 @@ export type ResultOf<T> = T extends TypedDocumentNode<infer ResultType, infer Va
  * Helper for extracting a TypeScript type for operation variables from a TypedDocumentNode.
  * @example
  * const myQuery = { ... }; // TypedDocumentNode<R, V> 
- * type VariablesType = ResultOf<typeof myQuery>; // Now it's V
+ * type VariablesType = VariablesOf<typeof myQuery>; // Now it's V
  */
 export type VariablesOf<T> = T extends TypedDocumentNode<infer ResultType, infer VariablesType> ? VariablesType : never;
