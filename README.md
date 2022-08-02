@@ -43,6 +43,7 @@ The following patches are currently supported:
 
 ## Upcoming built-in support
 - `graphql-js` (v16)
+- `graphql-request` (`4.4.0`)
 
 ## With Patch
 
