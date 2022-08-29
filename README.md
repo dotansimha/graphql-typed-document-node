@@ -40,10 +40,10 @@ The following patches are currently supported:
 - `villus` (since `1.0.0-beta.8`)
 - `graphql-js` (since `15.2.0`)
 - `@vue/apollo-composable` (since `4.0.0-alpha.13`)
+- `graphql-request` (since `5.0.0`)
 
 ## Upcoming built-in support
 - `graphql-js` (v16)
-- `graphql-request` (`4.4.0`)
 
 ## With Patch
 
