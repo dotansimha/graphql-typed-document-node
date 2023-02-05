@@ -1,14 +1,15 @@
-name: release
+name: pr
 on:
-  push:
+  pull_request:
     branches:
       - master
 
 jobs:
-  stable:
-    uses: the-guild-org/shared-config/.github/workflows/release-stable.yml@main
+  release:
+    uses: the-guild-org/shared-config/.github/workflows/release-snapshot.yml@main
     with:
-      releaseScript: release
+      npmTag: alpha
+      buildScript: build
       nodeVersion: 18
       packageManager: pnpm
     secrets:

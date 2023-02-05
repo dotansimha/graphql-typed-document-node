@@ -1,5 +1,3 @@
 {
-  "extends": [
-    "config:base"
-  ]
+  "extends": ["github>the-guild-org/shared-config:renovate"]
 }
