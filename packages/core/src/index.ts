@@ -15,9 +15,6 @@ export interface TypedDocumentNode<
 > extends DocumentNode,
     DocumentTypeDecoration<TResult, TVariables> {}
 
-export type TypedDocumentString<TResult, TVariables> = string &
-  DocumentTypeDecoration<TResult, TVariables>;
-
 /**
  * Helper for extracting a TypeScript type for operation result from a TypedDocumentNode and TypedDocumentString.
  * @example
