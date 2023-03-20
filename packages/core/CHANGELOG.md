@@ -1,5 +1,11 @@
 # @graphql-typed-document-node/core
 
+## 3.2.0
+
+### Minor Changes
+
+- [#154](https://github.com/dotansimha/graphql-typed-document-node/pull/154) [`a8bea01`](https://github.com/dotansimha/graphql-typed-document-node/commit/a8bea01b9d9cee70142b2ae7dea48cee5ed2b896) Thanks [@beerose](https://github.com/beerose)! - Export `DocumentTypeDecoration` interface with `__apiType` key so that it can be used to extend types other than `DocumentNode`
+
 ## 3.1.2
 
 ### Patch Changes
