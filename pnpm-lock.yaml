@@ -8,15 +8,15 @@ importers:
       '@changesets/cli': 2.26.0
       '@types/node': 14.17.33
       bob-the-bundler: 5.0.1
-      graphql: 16.6.0
-      typescript: 4.9.5
+      graphql: 16.8.1
+      typescript: 5.9.3
     devDependencies:
       '@changesets/changelog-github': 0.4.8
       '@changesets/cli': 2.26.0
       '@types/node': 14.17.33
-      bob-the-bundler: 5.0.1_typescript@4.9.5
-      graphql: 16.6.0
-      typescript: 4.9.5
+      bob-the-bundler: 5.0.1_typescript@5.9.3
+      graphql: 16.8.1
+      typescript: 5.9.3
 
   packages/core:
     specifiers: {}
@@ -432,7 +432,7 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /bob-the-bundler/5.0.1_typescript@4.9.5:
+  /bob-the-bundler/5.0.1_typescript@5.9.3:
     resolution: {integrity: sha512-oFl2AuEaEQgCVk+nDf2wqSyCzgzE4e4bRZb0/kRynRH+wRGT7725K/99bp2PTJof6nM2GJRD7PfMPHgfuE1bIQ==}
     hasBin: true
     peerDependencies:
@@ -450,8 +450,8 @@ packages:
       p-limit: 4.0.0
       resolve.exports: 2.0.0
       tslib: 2.5.0
-      tsup: 6.5.0_typescript@4.9.5
-      typescript: 4.9.5
+      tsup: 6.5.0_typescript@5.9.3
+      typescript: 5.9.3
       yargs: 17.6.2
       zod: 3.20.2
     transitivePeerDependencies:
@@ -1265,8 +1265,8 @@ packages:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
     dev: true
 
-  /graphql/16.6.0:
-    resolution: {integrity: sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==}
+  /graphql/16.8.1:
+    resolution: {integrity: sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
     dev: true
 
@@ -2380,7 +2380,7 @@ packages:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
     dev: true
 
-  /tsup/6.5.0_typescript@4.9.5:
+  /tsup/6.5.0_typescript@5.9.3:
     resolution: {integrity: sha512-36u82r7rYqRHFkD15R20Cd4ercPkbYmuvRkz3Q1LCm5BsiFNUgpo36zbjVhCOgvjyxNBWNKHsaD5Rl8SykfzNA==}
     engines: {node: '>=14'}
     hasBin: true
@@ -2410,7 +2410,7 @@ packages:
       source-map: 0.8.0-beta.0
       sucrase: 3.29.0
       tree-kill: 1.2.2
-      typescript: 4.9.5
+      typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
       - ts-node
@@ -2453,9 +2453,9 @@ packages:
       is-typed-array: 1.1.10
     dev: true
 
-  /typescript/4.9.5:
-    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
-    engines: {node: '>=4.2.0'}
+  /typescript/5.9.3:
+    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
+    engines: {node: '>=14.17'}
     hasBin: true
     dev: true
 
