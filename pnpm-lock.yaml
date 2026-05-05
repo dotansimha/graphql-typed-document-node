@@ -4,18 +4,18 @@ importers:
 
   .:
     specifiers:
-      '@changesets/changelog-github': 0.4.8
+      '@changesets/changelog-github': 0.7.0
       '@changesets/cli': 2.26.0
       '@types/node': 14.17.33
       bob-the-bundler: 5.0.1
-      graphql: 16.6.0
+      graphql: 16.8.1
       typescript: 4.9.5
     devDependencies:
-      '@changesets/changelog-github': 0.4.8
+      '@changesets/changelog-github': 0.7.0
       '@changesets/cli': 2.26.0
       '@types/node': 14.17.33
       bob-the-bundler: 5.0.1_typescript@4.9.5
-      graphql: 16.6.0
+      graphql: 16.8.1
       typescript: 4.9.5
 
   packages/core:
@@ -87,11 +87,11 @@ packages:
       '@changesets/types': 5.2.1
     dev: true
 
-  /@changesets/changelog-github/0.4.8:
-    resolution: {integrity: sha512-jR1DHibkMAb5v/8ym77E4AMNWZKB5NPzw5a5Wtqm1JepAuIF+hrKp2u04NKM14oBZhHglkCfrla9uq8ORnK/dw==}
+  /@changesets/changelog-github/0.7.0:
+    resolution: {integrity: sha512-rBsbRvc4TVn+FvFnOVM3LxlFJfTXXCp8gfVJ+0BubxWNSVnLuAzowi5j+IEraLLP52w8AAs9QfKbPS3MMiXQJA==}
     dependencies:
-      '@changesets/get-github-info': 0.5.2
-      '@changesets/types': 5.2.1
+      '@changesets/get-github-info': 0.8.0
+      '@changesets/types': 6.1.0
       dotenv: 8.6.0
     transitivePeerDependencies:
       - encoding
@@ -164,8 +164,8 @@ packages:
       semver: 5.7.1
     dev: true
 
-  /@changesets/get-github-info/0.5.2:
-    resolution: {integrity: sha512-JppheLu7S114aEs157fOZDjFqUDpm7eHdq5E8SSR0gUBTEK0cNSHsrSR5a66xs0z3RWuo46QvA3vawp8BxDHvg==}
+  /@changesets/get-github-info/0.8.0:
+    resolution: {integrity: sha512-cRnC+xdF0JIik7coko3iUP9qbnfi1iJQ3sAa6dE+Tx3+ET8bjFEm63PA4WEohgjYcmsOikPHWzPsMWWiZmntOQ==}
     dependencies:
       dataloader: 1.4.0
       node-fetch: 2.6.9
@@ -243,6 +243,10 @@ packages:
 
   /@changesets/types/5.2.1:
     resolution: {integrity: sha512-myLfHbVOqaq9UtUKqR/nZA/OY7xFjQMdfgfqeZIBK4d0hA6pgxArvdv8M+6NUzzBsjWLOtvApv8YHr4qM+Kpfg==}
+    dev: true
+
+  /@changesets/types/6.1.0:
+    resolution: {integrity: sha512-rKQcJ+o1nKNgeoYRHKOS07tAMNd3YSN0uHaJOZYjBAgxfV7TUE7JE+z4BzZdQwb5hKaYbayKN5KrYV7ODb2rAA==}
     dev: true
 
   /@changesets/write/0.2.3:
@@ -1265,8 +1269,8 @@ packages:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
     dev: true
 
-  /graphql/16.6.0:
-    resolution: {integrity: sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==}
+  /graphql/16.8.1:
+    resolution: {integrity: sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
     dev: true
 
