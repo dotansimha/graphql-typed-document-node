@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@7.33.7",
   "scripts": {
-    "release": "yarn build && changeset publish",
+    "release": "pnpm build && changeset publish",
     "build": "tsc --project tsconfig.json && bob build"
   },
   "devDependencies": {
