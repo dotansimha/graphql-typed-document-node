@@ -1,3 +1,13 @@
 {
-  "extends": ["github>the-guild-org/shared-config:renovate"]
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>the-guild-org/shared-config:renovate"],
+  "automerge": true,
+  "rebaseWhen": "conflicted",
+  "major": {
+    "automerge": false
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  }
 }
