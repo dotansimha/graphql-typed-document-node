@@ -6,7 +6,7 @@ on:
 
 jobs:
   stable:
-    uses: the-guild-org/shared-config/.github/workflows/release-stable.yml@main
+    uses: the-guild-org/shared-config/.github/workflows/release-stable.yml@1c4632ccc198d4c9b34d9e6b3d556c6f245b4e69 # main
     with:
       releaseScript: release
       nodeVersion: 18

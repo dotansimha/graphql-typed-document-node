@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    uses: the-guild-org/shared-config/.github/workflows/ci-node-matrix.yml@main
+    uses: the-guild-org/shared-config/.github/workflows/ci-node-matrix.yml@1c4632ccc198d4c9b34d9e6b3d556c6f245b4e69 # main
     with:
       script: pnpm build
       nodeVersions: '[14,16,18]'
